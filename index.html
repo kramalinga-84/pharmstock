@@ -810,6 +810,160 @@ tbody td {
 }
 
 .pin-dot.filled { background: var(--warn); }
+
+/* ═══════════════════════════════
+   TODAY'S AUDIT PAGE
+═══════════════════════════════ */
+.today-summary-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 14px; margin-bottom: 24px;
+}
+
+.today-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px;
+  position: relative; overflow: hidden;
+}
+
+.today-stat::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+}
+
+.today-stat.ts-total::before { background: var(--accent); }
+.today-stat.ts-shortage::before { background: var(--critical); }
+.today-stat.ts-excess::before { background: var(--ok); }
+.today-stat.ts-matched::before { background: var(--muted); }
+
+.today-stat .ts-label {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--muted); letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+
+.today-stat .ts-val {
+  font-size: 28px; font-weight: 800; line-height: 1;
+}
+
+.today-stat.ts-total .ts-val { color: var(--accent); }
+.today-stat.ts-shortage .ts-val { color: var(--critical); }
+.today-stat.ts-excess .ts-val { color: var(--ok); }
+.today-stat.ts-matched .ts-val { color: var(--muted); }
+
+.today-sessions-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+}
+
+.today-sessions-head {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px; border-bottom: 1px solid var(--border);
+  flex-wrap: wrap; gap: 10px;
+}
+
+.today-sessions-head h2 {
+  font-size: 14px; font-weight: 700;
+}
+
+.today-filter-tabs {
+  display: flex; gap: 6px;
+}
+
+.today-tab {
+  background: none; border: 1px solid var(--border);
+  border-radius: 20px; color: var(--muted);
+  cursor: pointer; font-family: 'DM Mono', monospace;
+  font-size: 11px; padding: 5px 14px;
+  transition: all 0.15s;
+}
+
+.today-tab.active {
+  background: var(--accent); border-color: var(--accent);
+  color: #fff; font-weight: 700;
+}
+
+.today-table { width: 100%; border-collapse: collapse; }
+
+.today-table thead th {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  color: var(--muted); font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 1.5px; padding: 11px 20px;
+  text-align: left; text-transform: uppercase;
+}
+
+.today-table tbody tr {
+  border-bottom: 1px solid rgba(208,217,228,0.5);
+  transition: background 0.15s;
+}
+
+.today-table tbody tr:hover { background: rgba(232,115,26,0.03); }
+
+.today-table tbody td {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  padding: 11px 20px; vertical-align: middle;
+}
+
+.today-med-name {
+  font-family: 'Syne', sans-serif !important;
+  font-size: 13px !important; font-weight: 600;
+  color: var(--text);
+}
+
+.today-staff-chip {
+  background: rgba(232,115,26,0.1);
+  border: 1px solid rgba(232,115,26,0.25);
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 11px; color: var(--accent); font-weight: 600;
+}
+
+.today-empty {
+  padding: 60px 24px; text-align: center;
+  font-family: 'DM Mono', monospace; font-size: 13px;
+  color: var(--muted);
+}
+
+.today-empty .te-icon { font-size: 40px; margin-bottom: 12px; }
+
+.today-refresh-btn {
+  background: none; border: 1px solid var(--border);
+  border-radius: 8px; color: var(--muted);
+  cursor: pointer; font-family: 'DM Mono', monospace;
+  font-size: 11px; padding: 7px 14px;
+  transition: all 0.15s;
+}
+
+.today-refresh-btn:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+
+.diff-chip {
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 11px; font-weight: 700;
+  display: inline-block;
+}
+
+.diff-chip.shortage {
+  background: rgba(248,81,73,0.1); color: var(--critical);
+  border: 1px solid rgba(248,81,73,0.3);
+}
+
+.diff-chip.excess {
+  background: rgba(63,185,80,0.1); color: var(--ok);
+  border: 1px solid rgba(63,185,80,0.3);
+}
+
+.diff-chip.matched {
+  background: rgba(107,122,141,0.1); color: var(--muted);
+  border: 1px solid rgba(107,122,141,0.2);
+}
+
+@media (max-width: 600px) {
+  .today-summary-bar { grid-template-columns: repeat(2,1fr); }
+}
 /* ═══════════════════════════════
    DEAD STOCK CLEANUP PAGE
 ═══════════════════════════════ */
@@ -1395,36 +1549,21 @@ tbody td {
   <div class="login-box">
     <div class="login-brand-tag">▸ PharmStock</div>
     <div class="login-title">Welcome Back</div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:center;margin-bottom:20px">Sign in to continue</div>
 
     <div class="login-field">
-      <label>Your Name</label>
-      <input type="text" id="loginName" placeholder="Enter your name" autocomplete="off"
+      <label>Username</label>
+      <input type="text" id="loginUsername" placeholder="Enter username" autocomplete="off"
+        onkeydown="if(event.key==='Enter') document.getElementById('loginPassword').focus()"/>
+    </div>
+
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter password"
         onkeydown="if(event.key==='Enter') doLogin()"/>
     </div>
 
-    <div style="margin-bottom:16px">
-      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Login As</div>
-      <div class="role-tabs">
-        <div class="role-tab selected" id="roleStaff" onclick="selectRole('staff')">
-          <div class="rt-icon">👨‍⚕️</div>
-          <span class="rt-label">Staff</span>
-          <span class="rt-desc">Audit + Add meds</span>
-        </div>
-        <div class="role-tab admin-tab" id="roleAdmin" onclick="selectRole('admin')">
-          <div class="rt-icon">🔐</div>
-          <span class="rt-label">Admin</span>
-          <span class="rt-desc">Full access</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="login-field" id="pinField" style="display:none">
-      <label>Admin PIN</label>
-      <input type="password" id="adminPin" placeholder="Enter PIN" maxlength="6"
-        onkeydown="if(event.key==='Enter') doLogin()"/>
-    </div>
-
-    <button class="btn-login" onclick="doLogin()">Enter PharmStock →</button>
+    <button class="btn-login" onclick="doLogin()">Sign In →</button>
     <div class="login-error" id="loginError"></div>
   </div>
 </div>
@@ -1472,11 +1611,37 @@ tbody td {
     </div>
   </div>
 
+  <div class="nav-item" id="nav-today" onclick="switchPage('today')">
+    <span class="nav-icon">📋</span>
+    <div class="nav-text">
+      <span class="nav-label">Today's Audit</span>
+      <span class="nav-desc">Items counted today</span>
+    </div>
+    <span class="nav-badge" id="todayNavBadge"></span>
+  </div>
+
+  <div class="nav-item" id="nav-orders" style="display:none" onclick="switchPage('orders')">
+    <span class="nav-icon">🛒</span>
+    <div class="nav-text">
+      <span class="nav-label">Store Orders</span>
+      <span class="nav-desc">Place & manage orders</span>
+    </div>
+    <span class="nav-badge" id="ordersNavBadge"></span>
+  </div>
+
   <div class="nav-item" id="nav-history" style="display:none" onclick="switchPage('history')">
     <span class="nav-icon">📚</span>
     <div class="nav-text">
       <span class="nav-label">Audit History</span>
       <span class="nav-desc">All past sessions</span>
+    </div>
+  </div>
+
+  <div class="nav-item" id="nav-users" style="display:none" onclick="switchPage('users')">
+    <span class="nav-icon">👥</span>
+    <div class="nav-text">
+      <span class="nav-label">User Management</span>
+      <span class="nav-desc">Add / manage staff</span>
     </div>
   </div>
 
@@ -1487,6 +1652,15 @@ tbody td {
       <span class="nav-desc">Remove uncounted items</span>
     </div>
     <span class="nav-badge" id="deadNavBadge"></span>
+  </div>
+
+  <div class="nav-item" id="nav-pricereport" style="display:none" onclick="switchPage('pricereport')">
+    <span class="nav-icon">💰</span>
+    <div class="nav-text">
+      <span class="nav-label">Price Report</span>
+      <span class="nav-desc">Better prices found</span>
+    </div>
+    <span class="nav-badge" id="priceNavBadge"></span>
   </div>
   <div class="sidebar-footer">
     <span id="sidebarDate"></span>
@@ -1833,6 +2007,236 @@ tbody td {
 </div>
 
 
+
+<!-- ══════════════════════════════════════
+     PAGE — TODAY'S AUDIT (STAFF + ADMIN)
+══════════════════════════════════════ -->
+<div class="page" id="page-today">
+  <div class="page-header">
+    <div>
+      <div class="page-title-tag" style="color:var(--accent)">▸ Daily View</div>
+      <div class="page-title" style="background:linear-gradient(135deg,var(--text) 40%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Today's Audit</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <div class="date-badge"><span id="todayPageDate"></span></div>
+      <button class="today-refresh-btn" onclick="loadTodayAudit()">↻ Refresh</button>
+    </div>
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="today-summary-bar">
+    <div class="today-stat ts-total">
+      <div class="ts-label">Total Counted</div>
+      <div class="ts-val" id="todayTotal">—</div>
+    </div>
+    <div class="today-stat ts-shortage">
+      <div class="ts-label">Shortages</div>
+      <div class="ts-val" id="todayShortage">—</div>
+    </div>
+    <div class="today-stat ts-excess">
+      <div class="ts-label">Excess</div>
+      <div class="ts-val" id="todayExcess">—</div>
+    </div>
+    <div class="today-stat ts-matched">
+      <div class="ts-label">Matched</div>
+      <div class="ts-val" id="todayMatched">—</div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="today-sessions-wrap">
+    <div class="today-sessions-head">
+      <h2 id="todayTableTitle">Items Audited Today</h2>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div class="today-filter-tabs">
+          <button class="today-tab active" onclick="filterToday('all', this)">All</button>
+          <button class="today-tab" onclick="filterToday('shortage', this)">Shortage</button>
+          <button class="today-tab" onclick="filterToday('excess', this)">Excess</button>
+          <button class="today-tab" onclick="filterToday('matched', this)">Matched</button>
+        </div>
+        <input type="text" id="todaySearch" placeholder="🔍 Search medicine…"
+          style="background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;padding:7px 12px;outline:none;width:180px"
+          oninput="renderTodayTable()"/>
+      </div>
+    </div>
+    <table class="today-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Medicine</th>
+          <th>Rack</th>
+          <th>System Stock</th>
+          <th>Rack Stock</th>
+          <th>Difference</th>
+          <th>Status</th>
+          <th>Counted By</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="todayTableBody">
+        <tr><td colspan="9">
+          <div class="today-empty">
+            <div class="te-icon">📋</div>
+            <p>Loading today's audit data…</p>
+          </div>
+        </td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE — STORE ORDERS
+══════════════════════════════════════ -->
+<div class="page" id="page-orders">
+  <div class="page-header">
+    <div>
+      <div class="page-title-tag" style="color:#e8731a">▸ Procurement</div>
+      <div class="page-title" style="background:linear-gradient(135deg,var(--text) 40%,#e8731a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Store Orders</div>
+    </div>
+    <div class="date-badge"><span id="ordersDate"></span></div>
+  </div>
+
+  <!-- Role tabs: staff sees Place Order, admin/supervisor sees both -->
+  <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap" id="orderTabsBar">
+    <button class="today-tab active" id="otab-place" onclick="switchOrderTab('place', this)">🛒 Place Order</button>
+    <button class="today-tab" id="otab-manage" onclick="switchOrderTab('manage', this)" style="display:none">📋 Manage Orders</button>
+  </div>
+
+  <!-- PLACE ORDER TAB -->
+  <div id="orderPlaceTab">
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:16px" class="order-grid">
+      <!-- Product List -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+          <span style="font-weight:700;font-size:14px">Select Products</span>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)" id="orderResCnt"></span>
+        </div>
+        <div style="padding:10px 14px;border-bottom:1px solid var(--border)">
+          <input type="text" id="orderSearch" placeholder="🔍 Search product…"
+            style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;padding:9px 14px;outline:none"
+            oninput="filterOrderProducts()"/>
+        </div>
+        <div style="overflow-y:auto;flex:1;max-height:calc(100vh - 340px)" id="orderProductList"></div>
+        <div style="padding:10px 14px;border-top:1px solid var(--border);background:var(--bg);display:flex;gap:8px">
+          <input type="text" id="orderManualInp" placeholder="Item not in list? Type to request…"
+            style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;padding:8px 12px;outline:none"/>
+          <button onclick="addManualOrderItem()"
+            style="background:var(--accent);border:none;border-radius:8px;color:#fff;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;padding:8px 14px">+ Request</button>
+        </div>
+      </div>
+
+      <!-- Cart -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+          <span style="font-weight:700;font-size:14px">Cart</span>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)" id="cartLabel">0 items</span>
+        </div>
+        <div style="flex:1;overflow-y:auto;min-height:200px" id="cartItems">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 20px;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;text-align:center">
+            <div style="font-size:32px;margin-bottom:8px;opacity:0.4">🛒</div>
+            Select products to add
+          </div>
+        </div>
+        <div style="padding:14px;border-top:1px solid var(--border)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)" id="cartSummary"></span>
+            <button onclick="clearCart()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;font-size:11px">Clear all</button>
+          </div>
+          <button id="submitOrderBtn" onclick="submitStoreOrder()" disabled
+            style="width:100%;padding:12px;background:linear-gradient(135deg,#e8731a,#c45a0f);border:none;border-radius:10px;color:#fff;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;opacity:0.4;transition:all 0.2s">
+            Submit Order →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANAGE ORDERS TAB (admin/supervisor) -->
+  <div id="orderManageTab" style="display:none">
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap" id="manageOrderFilters">
+      <button class="today-tab active" onclick="filterOrders('all', this)">All</button>
+      <button class="today-tab" onclick="filterOrders('pending', this)">🟠 Pending</button>
+      <button class="today-tab" onclick="filterOrders('sent', this)">✅ Sent</button>
+    </div>
+    <div id="ordersList"></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE — USER MANAGEMENT (ADMIN)
+══════════════════════════════════════ -->
+<div class="page" id="page-users">
+  <div class="page-header">
+    <div>
+      <div class="page-title-tag" style="color:var(--accent)">▸ Admin / Security</div>
+      <div class="page-title" style="background:linear-gradient(135deg,var(--text) 40%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">User Management</div>
+    </div>
+    <button class="today-refresh-btn" onclick="loadUsers()">↻ Refresh</button>
+  </div>
+
+  <!-- Add User Card -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px;position:relative;overflow:hidden">
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),transparent)"></div>
+    <h3 style="font-size:14px;font-weight:700;margin-bottom:18px">➕ Add New User</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px">
+      <div class="ctrl-field">
+        <label>Full Name</label>
+        <input type="text" id="newUserName" placeholder="e.g. Kiran Kumar"
+          style="background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:10px 14px;outline:none;width:100%"/>
+      </div>
+      <div class="ctrl-field">
+        <label>Username</label>
+        <input type="text" id="newUserUsername" placeholder="e.g. kiran123" autocomplete="off"
+          style="background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:10px 14px;outline:none;width:100%"/>
+      </div>
+      <div class="ctrl-field">
+        <label>Password</label>
+        <input type="password" id="newUserPassword" placeholder="Min 4 characters"
+          style="background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:10px 14px;outline:none;width:100%"/>
+      </div>
+      <div class="ctrl-field">
+        <label>Role</label>
+        <select id="newUserRole"
+          style="background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:10px 14px;outline:none;width:100%;-webkit-appearance:none">
+          <option value="stock_audit">👨‍⚕️ Stock Audit</option>
+          <option value="supervisor">👁️ Supervisor</option>
+          <option value="admin">🔐 Admin</option>
+        </select>
+      </div>
+    </div>
+    <button onclick="addUser()"
+      style="background:linear-gradient(135deg,var(--accent),#c45a0f);border:none;border-radius:10px;color:#fff;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:1px;padding:12px 24px;text-transform:uppercase;transition:all 0.2s">
+      ➕ Add User
+    </button>
+    <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--critical);margin-left:12px" id="addUserError"></span>
+  </div>
+
+  <!-- Users Table -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden">
+    <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+      <h3 style="font-size:14px;font-weight:700">All Users</h3>
+      <span class="count-badge" id="userCount">—</span>
+    </div>
+    <table style="width:100%;border-collapse:collapse" id="usersTable">
+      <thead>
+        <tr>
+          <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 20px;text-align:left;text-transform:uppercase">Name</th>
+          <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 20px;text-align:left;text-transform:uppercase">Username</th>
+          <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 20px;text-align:left;text-transform:uppercase">Role</th>
+          <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 20px;text-align:left;text-transform:uppercase">Status</th>
+          <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 20px;text-align:right;text-transform:uppercase">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="usersTableBody">
+        <tr><td colspan="5" style="padding:40px;text-align:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">Loading users…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <!-- ══════════════════════════════════════
      PAGE 5 — DEAD STOCK CLEANUP (ADMIN)
 ══════════════════════════════════════ -->
@@ -1976,6 +2380,152 @@ tbody td {
   </div>
 </div>
 
+
+<!-- ══════════════════════════════════════
+     PAGE — PRICE REPORT (ADMIN)
+══════════════════════════════════════ -->
+<div class="page" id="page-pricereport">
+  <div class="page-header">
+    <div>
+      <div class="page-title-tag" style="color:#2e8b57">▸ Admin / Procurement</div>
+      <div class="page-title" style="background:linear-gradient(135deg,var(--text) 40%,#2e8b57);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Price Report</div>
+    </div>
+    <div class="date-badge" style="border-color:rgba(46,139,87,0.3)">
+      <span style="color:#2e8b57">💰 Admin Only</span>
+    </div>
+  </div>
+
+  <!-- Upload Section -->
+  <div id="priceUploadZone" style="background:var(--surface);border:2px dashed var(--border);border-radius:16px;padding:40px;text-align:center;cursor:pointer;margin-bottom:24px;transition:border-color 0.2s"
+    onclick="document.getElementById('priceFileInput').click()"
+    ondragover="event.preventDefault();this.style.borderColor='#2e8b57'"
+    ondragleave="this.style.borderColor='var(--border)'"
+    ondrop="event.preventDefault();this.style.borderColor='var(--border)';handlePriceFile(event.dataTransfer.files[0])">
+    <input type="file" id="priceFileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="handlePriceFile(this.files[0])"/>
+    <div style="font-size:40px;margin-bottom:12px">📊</div>
+    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:6px">Upload Invoice Excel</div>
+    <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">Columns required: Medicine Name · Supplier Name · Rate · Quantity</div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px">.xlsx / .xls / .csv accepted</div>
+  </div>
+
+  <!-- Summary Stats -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px" id="priceSummaryBar" style="display:none">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;border-top:3px solid #2e8b57">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Items Uploaded</div>
+      <div style="font-size:28px;font-weight:800;color:var(--text)" id="priceStatTotal">—</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;border-top:3px solid #2e8b57">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Better Prices Found</div>
+      <div style="font-size:28px;font-weight:800;color:#2e8b57" id="priceStatBetter">—</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;border-top:3px solid var(--critical)">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Higher Prices</div>
+      <div style="font-size:28px;font-weight:800;color:var(--critical)" id="priceStatHigher">—</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;border-top:3px solid var(--muted)">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Not in DB</div>
+      <div style="font-size:28px;font-weight:800;color:var(--muted)" id="priceStatNew">—</div>
+    </div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap" id="priceFilterBar" style="display:none">
+    <button class="today-tab active" onclick="filterPriceReport('all', this)">All</button>
+    <button class="today-tab" onclick="filterPriceReport('better', this)">✅ Better Price</button>
+    <button class="today-tab" onclick="filterPriceReport('higher', this)">🔴 Higher Price</button>
+    <button class="today-tab" onclick="filterPriceReport('same', this)">⚪ Same</button>
+    <button class="today-tab" onclick="filterPriceReport('notfound', this)">❓ Not in DB</button>
+    <button onclick="updateAllBetterPrices()"
+      style="margin-left:auto;background:rgba(46,139,87,0.1);border:1px solid rgba(46,139,87,0.3);border-radius:8px;color:#2e8b57;cursor:pointer;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;padding:7px 16px;transition:all 0.15s" 
+      id="updateAllBtn" style="display:none">
+      ✅ Update All Better Prices
+    </button>
+  </div>
+
+  <!-- Results Table -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden" id="priceResultsWrap" style="display:none">
+    <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+      <h3 style="font-size:14px;font-weight:700" id="priceResultTitle">Price Comparison Results</h3>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="priceSearch" placeholder="🔍 Search medicine…"
+          style="background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;padding:7px 12px;outline:none;width:180px"
+          oninput="renderPriceTable()"/>
+        <button onclick="exportPriceReport()"
+          style="background:none;border:1px solid rgba(46,139,87,0.3);border-radius:8px;color:#2e8b57;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;padding:7px 14px">📊 Export</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse" id="priceTable">
+        <thead>
+          <tr>
+            <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 16px;text-align:left;text-transform:uppercase">#</th>
+            <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 16px;text-align:left;text-transform:uppercase">Medicine</th>
+            <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 16px;text-align:left;text-transform:uppercase">Invoice Supplier</th>
+            <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 16px;text-align:right;text-transform:uppercase">DB Price</th>
+            <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 16px;text-align:right;text-transform:uppercase">Invoice Price</th>
+            <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 16px;text-align:right;text-transform:uppercase">Difference</th>
+            <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 16px;text-align:center;text-transform:uppercase">Status</th>
+            <th style="background:var(--surface2);border-bottom:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:11px 16px;text-align:right;text-transform:uppercase">Action</th>
+          </tr>
+        </thead>
+        <tbody id="priceTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Price Change Log -->
+  <div style="margin-top:24px;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden" id="priceLogWrap">
+    <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+      <h3 style="font-size:14px;font-weight:700">🔔 Price Change Log</h3>
+      <span class="count-badge" id="priceLogCount">0 changes</span>
+    </div>
+    <div id="priceLogList" style="max-height:300px;overflow-y:auto">
+      <div style="padding:30px;text-align:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">No price changes recorded yet.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── WHATSAPP ORDER MODAL ── -->
+<div class="modal-overlay" id="waOrderModal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-title-tag" style="color:#25D366">▸ WhatsApp Order</div>
+    <div class="modal-title" style="font-size:18px">Send Order via WhatsApp</div>
+
+    <div style="margin-bottom:14px">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Supplier</div>
+      <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700" id="waSupplierName"></div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Message Preview</div>
+      <div id="waMessagePreview"
+        style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text);white-space:pre-wrap;max-height:160px;overflow-y:auto;line-height:1.6"></div>
+    </div>
+
+    <div class="modal-field">
+      <label>WhatsApp Number</label>
+      <input type="tel" id="waPhoneInput" placeholder="e.g. 919876543210"
+        style="background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'DM Mono',monospace;font-size:16px;letter-spacing:2px;padding:13px 16px;outline:none;width:100%;transition:border-color 0.2s"
+        onkeydown="if(event.key==='Enter') sendWhatsAppNow()"/>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:4px">Include country code — India: 91XXXXXXXXXX</div>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--critical);min-height:16px;margin-bottom:12px" id="waPhoneError"></div>
+
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeWAModal()">Cancel</button>
+      <button onclick="copyWAMessage()"
+        style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:1px;padding:13px;text-transform:uppercase;transition:all 0.2s">
+        📋 Copy Message
+      </button>
+      <button onclick="sendWhatsAppNow()"
+        style="flex:1;background:#25D366;border:none;border-radius:10px;color:#fff;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:1px;padding:13px;text-transform:uppercase;transition:all 0.2s">
+        📱 Open WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast">
   <span class="toast-icon" id="toastIcon">✓</span>
@@ -1990,6 +2540,17 @@ tbody td {
 const SUPABASE_URL = 'https://kqippaxolbmjfdigfltx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_rFNnMHS9Xemw4LPxf6q_8A_mPIhfGGr';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Store Orders product database
+const BASE_DB_ORDERS = [{"Medicine Name": "10CM ORTHOPEDIC CAST PADDING", "Best Supplier": "GVRS MEDEVICES", "Rate": 26.6}, {"Medicine Name": "15CM ORTHOPEDIC CAST PADDING", "Best Supplier": "GVRS MEDEVICES", "Rate": 38.9}, {"Medicine Name": "24 NEEDLE", "Best Supplier": "GIRISH SURGICALS", "Rate": 0.75}, {"Medicine Name": "24 NEEDLE SURGICAL", "Best Supplier": "GIRISH SURGICALS", "Rate": 0.75}, {"Medicine Name": "25 DEXTROSE", "Best Supplier": "GIRISH SURGICALS", "Rate": 13.78}, {"Medicine Name": "25 DEXTROSE  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 13.780000000000001}, {"Medicine Name": "25-D", "Best Supplier": "GIRISH SURGICALS", "Rate": 13.780000000000001}, {"Medicine Name": "25-D SURGICAL", "Best Supplier": "GIRISH SURGICALS", "Rate": 13.78}, {"Medicine Name": "5D", "Best Supplier": "GIRISH SURGICALS", "Rate": 25.53}, {"Medicine Name": "5D SURGICAL", "Best Supplier": "GIRISH SURGICALS", "Rate": 25.53}, {"Medicine Name": "AB GEL", "Best Supplier": "GIRISH SURGICALS", "Rate": 180.0}, {"Medicine Name": "AB SURGICALS", "Best Supplier": "GIRISH SURGICALS", "Rate": 180.0}, {"Medicine Name": "ACEMIZ PLUS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.0}, {"Medicine Name": "ACINIC-GEL  OINTMENTS", "Best Supplier": "ANJANA PHARMA PVT LTD", "Rate": 17.5}, {"Medicine Name": "ACINIC-P", "Best Supplier": "ANJANA PHARMA PVT LTD", "Rate": 12.15}, {"Medicine Name": "ACIVIR 400 DT", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 109.3}, {"Medicine Name": "ACIVIR 800DT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 306.55}, {"Medicine Name": "ACIVIR-200DT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 61.910000000000004}, {"Medicine Name": "ADULT DAIPER RAMSON", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 26.0}, {"Medicine Name": "ADULT DIAPERS MAGNA", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "ADVA 3337", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 89.60000000000001}, {"Medicine Name": "AKT 4", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 23.43}, {"Medicine Name": "AKT 4  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 23.43}, {"Medicine Name": "ALCAL-D", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "ALDIGESIC-P PLUS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "ALDINE SOLUTION 100ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "ALLOPROVE-100", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 16.0}, {"Medicine Name": "ALMEFKEM SPAS TA", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "ALOJA 25", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 106.79}, {"Medicine Name": "ALOJA 25TAB", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 106.79}, {"Medicine Name": "ALPRAX-0.25", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 27.5}, {"Medicine Name": "ALUPURE-100", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 16.0}, {"Medicine Name": "AMIJECT 500", "Best Supplier": "BHARGAV PHARMA", "Rate": 23.75}, {"Medicine Name": "AMJECT250", "Best Supplier": "BHARGAV PHARMA", "Rate": 19.0}, {"Medicine Name": "AMJECT250  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "AMLIP-AT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 20.0}, {"Medicine Name": "AMLIP-AT  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 33.21}, {"Medicine Name": "AMOXYCLAV   GELS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 45.0}, {"Medicine Name": "AMOXYCLAV GELS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 45.0}, {"Medicine Name": "AMOXYCLAV-375MG", "Best Supplier": "BHARGAV PHARMA", "Rate": 74.5}, {"Medicine Name": "ANAWIN 0.5%", "Best Supplier": "GIRISH SURGICALS", "Rate": 67.5}, {"Medicine Name": "ANAWIN HEAVY 4ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 24.5}, {"Medicine Name": "ANAWIN HEAVY 4ML  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 24.5}, {"Medicine Name": "ANKLE BINDER", "Best Supplier": "V L Ankitha Surgicals", "Rate": 50.0}, {"Medicine Name": "ANW 2382", "Best Supplier": "SRUTHISURGICALS", "Rate": 163.0}, {"Medicine Name": "ANW 2421 OS", "Best Supplier": "SRUTHISURGICALS", "Rate": 160.0}, {"Medicine Name": "ANW 3336", "Best Supplier": "SRUTHISURGICALS", "Rate": 57.0}, {"Medicine Name": "ANW 5002", "Best Supplier": "GIRISH SURGICALS", "Rate": 86.0}, {"Medicine Name": "ANXIT 0.25MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 18.57}, {"Medicine Name": "APIGAT 5MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 595.0}, {"Medicine Name": "APIXATEZ-5MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 55.0}, {"Medicine Name": "APLEVANT 1.5MG", "Best Supplier": "POORNIMA MEDICALS", "Rate": 2061.0}, {"Medicine Name": "APPL-ACTIVA-1000", "Best Supplier": "ANJANA PHARMA PVT LTD", "Rate": 16.65}, {"Medicine Name": "AQUA  1ML", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 2.75}, {"Medicine Name": "ARACHITOL 6 LACKS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 64.6}, {"Medicine Name": "ARACHITOL 6 LACKS  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 64.60000000000001}, {"Medicine Name": "ARACHITOL NANO  GENERAL", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 329.51}, {"Medicine Name": "ARISOCAL-CT", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 20.0}, {"Medicine Name": "ARISOCAL-CT CAPSULES", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 20.0}, {"Medicine Name": "ARISTOCOR-T", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 21.0}, {"Medicine Name": "ARISTOCORT H", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 17.5}, {"Medicine Name": "ARISTONEUROL PLUS", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 38.75}, {"Medicine Name": "ARISTOVERT 16", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "ARM SLING", "Best Supplier": "JBS REHABILITATIONS", "Rate": 125.0}, {"Medicine Name": "ASH BRACE -L  GENERAL", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 1297.5}, {"Medicine Name": "ASH BRACE -L GENERAL", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 1360.0}, {"Medicine Name": "ASTHALIN  INHALERS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 6.1}, {"Medicine Name": "ATEN 25", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 24.08}, {"Medicine Name": "ATEN-50", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 26.92}, {"Medicine Name": "ATM 500", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "ATM500", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 94.28}, {"Medicine Name": "ATOCOR 10MG REDDYS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 60.25}, {"Medicine Name": "ATOCOR 20", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 150.59}, {"Medicine Name": "ATOCOR 20  STRIPS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 150.68}, {"Medicine Name": "ATOCOR 40", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 235.45}, {"Medicine Name": "ATROTAS 1ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 5.0}, {"Medicine Name": "AVAGARD 500ML SOL", "Best Supplier": "GIRISH SURGICALS", "Rate": 200.0}, {"Medicine Name": "AVIL 2ML", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 4.63}, {"Medicine Name": "AVIL 2ML  ECTIONS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 4.63}, {"Medicine Name": "AXIFUR", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 100.0}, {"Medicine Name": "AZILUP-500", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "AZTOR 40", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 231.48}, {"Medicine Name": "B-LONG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 131.85}, {"Medicine Name": "BANDAGE PLAIN", "Best Supplier": "GIRISH SURGICALS", "Rate": 7.2}, {"Medicine Name": "BD CONNECTA", "Best Supplier": "GIRISH SURGICALS", "Rate": 49.55}, {"Medicine Name": "BD GLIDE", "Best Supplier": "GIRISH SURGICALS", "Rate": 8.11}, {"Medicine Name": "BECOSULES CAP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 49.89}, {"Medicine Name": "BECTODINE 100ML", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 132.6}, {"Medicine Name": "BECTODINE 500 ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 110.0}, {"Medicine Name": "BED PAN", "Best Supplier": "V L Ankitha Surgicals", "Rate": 80.0}, {"Medicine Name": "BEOLEX FORTE", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 36.92}, {"Medicine Name": "BETADINE OINT", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 108.86}, {"Medicine Name": "BETADINE OINT  OINTMENTS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 108.85999999999999}, {"Medicine Name": "BETAHISTOL 16 MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "BETAHISTOL 16 MG  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "BETNOVATE-N  pack", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 43.44}, {"Medicine Name": "BIDICAL-D3 SUSP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "BIOTAX 1GM", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 31.96}, {"Medicine Name": "BIOTAX 500MG", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 19.84}, {"Medicine Name": "BUDECORT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.75}, {"Medicine Name": "BUDECORT  INHALERS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.75}, {"Medicine Name": "BUDECORT INHALERS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.75}, {"Medicine Name": "BUPRIGESIC", "Best Supplier": "GIRISH SURGICALS", "Rate": 22.9}, {"Medicine Name": "BUSCOGAST", "Best Supplier": "SRI PRASANNA SAI MEDICAL AGENCIES", "Rate": 9.68}, {"Medicine Name": "BUSCOGAST   STRIPS", "Best Supplier": "SRI PRASANNA SAI MEDICAL AGENCIES", "Rate": 9.68}, {"Medicine Name": "BUSCOGAST PLUS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 57.36}, {"Medicine Name": "C-ONE TZ", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 55.0}, {"Medicine Name": "CADCAL-D3", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 60.0}, {"Medicine Name": "CALCIGARD 10", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 7.7}, {"Medicine Name": "CALCIGARD 10  STRIPS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 7.7}, {"Medicine Name": "CALCIORLLY-D3", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "CALSHREE-D3", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "CANDID-B", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 123.92}, {"Medicine Name": "CANDID-B  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 123.92}, {"Medicine Name": "CARESIL-300MG AMP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "CEFADROX 500MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 53.67999999999999}, {"Medicine Name": "CEFIX - 100  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "CEFTAS-100 DS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "CEFZONE-XP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 57.0}, {"Medicine Name": "CEFZONE-XP   ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 57.0}, {"Medicine Name": "CEPHADEX 500", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 49.5}, {"Medicine Name": "CEPTIGRAS", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 12.0}, {"Medicine Name": "CEPTINET", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 45.0}, {"Medicine Name": "CHYMOTAS FORTE T", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 45.0}, {"Medicine Name": "CHYMTRAL FORTE", "Best Supplier": "BHARGAV PHARMA", "Rate": 36.45}, {"Medicine Name": "CIFRAN EYE DROPS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 12.33}, {"Medicine Name": "CIFRAN EYE DROPS  drops", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 12.33}, {"Medicine Name": "CILACAR 20MG", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 230.6}, {"Medicine Name": "CINOD-20", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 203.57}, {"Medicine Name": "CIP-ZOX", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 14.28}, {"Medicine Name": "CIP-ZOX10", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 26.0}, {"Medicine Name": "CIPCAL 250", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 19.0}, {"Medicine Name": "CIPCAL 250 SYRUP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "CIPMOL 100ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 45.0}, {"Medicine Name": "CIPZEN FORTE", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "CIPZEN FORTE  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "CLARIBID 500", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 324.24}, {"Medicine Name": "CLINDANOL", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "CLINDANOL  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "CLINDANOL-300", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 87.5}, {"Medicine Name": "CLING DRAPE", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 40.0}, {"Medicine Name": "CLINGRIGHT-300", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 69.5}, {"Medicine Name": "CLOCIP-B  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "CLONEON 150MCG", "Best Supplier": "GIRISH SURGICALS", "Rate": 68.0}, {"Medicine Name": "CLOPICARD", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "CLOPIVAS AP 75  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 76.74}, {"Medicine Name": "CLOPIVAS-75  STRIPS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 81.21}, {"Medicine Name": "COCK UP WRIST BRACE", "Best Supplier": "V L Ankitha Surgicals", "Rate": 197.5}, {"Medicine Name": "COCOJOINT GEL  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 42.0}, {"Medicine Name": "COCOJOINT-R", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 77.27}, {"Medicine Name": "COMBIFLAM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "COMBIFLAM SYRUP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "COMPREZON VEIN STOCKINGS", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 900.0}, {"Medicine Name": "CORN PLAST", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 20.0}, {"Medicine Name": "CORT-S", "Best Supplier": "GIRISH SURGICALS", "Rate": 17.0}, {"Medicine Name": "COSART-H", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "COTTON 4", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "CRAMCLEAR", "Best Supplier": "POORNIMA MEDICALS", "Rate": 112.54}, {"Medicine Name": "CREMAFFIN PLUS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 65.0}, {"Medicine Name": "CURADEX 100ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 19.94}, {"Medicine Name": "CYFEXA-LB  A/A", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 50.0}, {"Medicine Name": "CYFEXA-LB A/A", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 50.0}, {"Medicine Name": "CYPON", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 106.42999999999999}, {"Medicine Name": "DAROLAC SACHET  SCCHUES", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 11.790000000000001}, {"Medicine Name": "DART", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 28.55}, {"Medicine Name": "DEBRIDACE  pack", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 165.0}, {"Medicine Name": "DECA-INSOLIN 25  ECTIONS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 8.31}, {"Medicine Name": "DECDAN VIAL  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 8.5}, {"Medicine Name": "DEFLAWORK 6MG", "Best Supplier": "BHARGAV PHARMA", "Rate": 22.5}, {"Medicine Name": "DEFLAWORK 6MG  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 23.0}, {"Medicine Name": "DERIPHILLIN RETARD 150", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 31.99}, {"Medicine Name": "DICLOCARE 3ML", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 2.95}, {"Medicine Name": "DICLOFENAC PLUS 30GM  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.5}, {"Medicine Name": "DISPOSABLE DRAIN", "Best Supplier": "GIRISH SURGICALS", "Rate": 26.5}, {"Medicine Name": "DISPOSABLE HAND CONTRAL", "Best Supplier": "GIRISH SURGICALS", "Rate": 180.0}, {"Medicine Name": "DIZIRON", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 141.45}, {"Medicine Name": "DNS 500 ML", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 21.5}, {"Medicine Name": "DOLO 650", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 19.89}, {"Medicine Name": "DOLOPAR", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 37.5}, {"Medicine Name": "DORA 10 CC", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 3.9}, {"Medicine Name": "DORA 20CC", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 8.0}, {"Medicine Name": "DORA 3CC", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 2.05}, {"Medicine Name": "DORA 3CC SYR", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 2.1}, {"Medicine Name": "DORA 5CC", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 2.35}, {"Medicine Name": "DROTIN PLUS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 60.71}, {"Medicine Name": "DULCOFLEX", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 10.0}, {"Medicine Name": "DULCOFLEX SUPP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 32.0}, {"Medicine Name": "DULCOFLEX SUPP  GENERAL", "Best Supplier": "GIRISH SURGICALS", "Rate": 8.0}, {"Medicine Name": "DUOLIN", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.75}, {"Medicine Name": "DUOLIN  INHALERS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 22.5}, {"Medicine Name": "DUOLIN ROTACAPS", "Best Supplier": "ANUPAMA MEDICAL SYNDICATE", "Rate": 187.41}, {"Medicine Name": "DUPAMAC  100ML", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 60.0}, {"Medicine Name": "DYNA 4POP", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 48.0}, {"Medicine Name": "DYNA C.T KIT", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 190.0}, {"Medicine Name": "DYNA CREPE 4", "Best Supplier": "V L Ankitha Surgicals", "Rate": 69.0}, {"Medicine Name": "DYNA CREPE 6", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 95.0}, {"Medicine Name": "DYNAFLEX SPRAY", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 90.0}, {"Medicine Name": "DYTOR  ECTIONS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 22.25}, {"Medicine Name": "ECONORM POWDER  SCCHUES", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 49.26}, {"Medicine Name": "ECOSPRIN 150", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 8.57}, {"Medicine Name": "ECOSPRIN 325", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 8.09}, {"Medicine Name": "ECOSPRIN 75", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 4.22}, {"Medicine Name": "ELDERVIT 12", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 22.0}, {"Medicine Name": "ELDERVIT 12  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 22.0}, {"Medicine Name": "ELDERVIT IRON", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "ELDOPER", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.326666666666668}, {"Medicine Name": "ELECTRO-PEN", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 122.5}, {"Medicine Name": "ELEXIM LB 200", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 46.0}, {"Medicine Name": "ELF1 O 20LB", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 46.0}, {"Medicine Name": "ELTROXIN-50MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 86.88}, {"Medicine Name": "ELdervit -D3", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "ENCLEX 40 MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 160.0}, {"Medicine Name": "ENCLEX 60 MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 240.0}, {"Medicine Name": "ENCORE ORTHO", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 38.0}, {"Medicine Name": "ENO  SCCHUES", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 7.95}, {"Medicine Name": "ENO SCCHUES", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 7.95}, {"Medicine Name": "ENOXION 40MG/0.4ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 165.0}, {"Medicine Name": "ENOXION 40MG/0.4ML  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 165.0}, {"Medicine Name": "ENOXION 60MG", "Best Supplier": "GIRISH SURGICALS", "Rate": 220.0}, {"Medicine Name": "ENOXION 60MG  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 220.0}, {"Medicine Name": "ENSURE V 400GM POWDER", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 641.33}, {"Medicine Name": "ENTISEP 100 ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 200.0}, {"Medicine Name": "EOFER-XT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 110.0}, {"Medicine Name": "EPI KIT", "Best Supplier": "GIRISH SURGICALS", "Rate": 525.0}, {"Medicine Name": "EPTOIN", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 171.95000000000002}, {"Medicine Name": "EPTOIN AMP", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 9.68}, {"Medicine Name": "ESOMER-L CAP", "Best Supplier": "BHARGAV PHARMA", "Rate": 48.0}, {"Medicine Name": "ET TUBE 7.00mm", "Best Supplier": "GIRISH SURGICALS", "Rate": 68.0}, {"Medicine Name": "ET TUBE 7.5mm", "Best Supplier": "GIRISH SURGICALS", "Rate": 70.0}, {"Medicine Name": "ETOZOX-90MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 50.0}, {"Medicine Name": "EVION 400", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "EVION-LC", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 49.169999999999995}, {"Medicine Name": "EXPAVON", "Best Supplier": "GIRISH SURGICALS", "Rate": 375.0}, {"Medicine Name": "FACE MASK", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 2.0}, {"Medicine Name": "FEBUTAZ 40", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "FEBUTAZ 40  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "FERCEE RED", "Best Supplier": "BHARGAV PHARMA", "Rate": 42.75}, {"Medicine Name": "FERRIWOK-XT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "FERVAY 1.5G VAIL", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 100.0}, {"Medicine Name": "FEVASTIN", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 8.74}, {"Medicine Name": "FEVASTIN  ECTIONS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 8.74}, {"Medicine Name": "FINECEF 1GM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 22.5}, {"Medicine Name": "FINECEF 250MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 13.224166666666667}, {"Medicine Name": "FINECEF 500MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 23.455833333333334}, {"Medicine Name": "FINGER COT -U  SCCHUES", "Best Supplier": "V L Ankitha Surgicals", "Rate": 82.5}, {"Medicine Name": "FIRST AID BAN", "Best Supplier": "GIRISH SURGICALS", "Rate": 0.95}, {"Medicine Name": "FLAGYL 400  GENERAL", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 24.74}, {"Medicine Name": "FLEXAID - D", "Best Supplier": "BHARGAV PHARMA", "Rate": 58.75}, {"Medicine Name": "FLEXI MASK ADULT", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 45.0}, {"Medicine Name": "FLEXIB", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 28.0}, {"Medicine Name": "FLEXO BAND", "Best Supplier": "GVRS MEDEVICES", "Rate": 55.35}, {"Medicine Name": "FOLEY TRAC FG-12", "Best Supplier": "GIRISH SURGICALS", "Rate": 28.0}, {"Medicine Name": "FOLITRAX 7.5", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 124.19000000000001}, {"Medicine Name": "FOLVITE", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 59.58}, {"Medicine Name": "FOOT DROP SPLINT", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 1299.0}, {"Medicine Name": "FORACORT 200 INHALER  SCCHUES", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 139.78}, {"Medicine Name": "FORMALIN  STRIPS", "Best Supplier": "GIRISH SURGICALS", "Rate": 98.0}, {"Medicine Name": "FORMIC-O 200LB", "Best Supplier": "BHARGAV PHARMA", "Rate": 44.0}, {"Medicine Name": "FOSFOCIN SACHET  SCCHUES", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 298.95}, {"Medicine Name": "G2K", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 12.0}, {"Medicine Name": "GABADON 300", "Best Supplier": "BHARGAV PHARMA", "Rate": 27.25}, {"Medicine Name": "GABADON-100", "Best Supplier": "BHARGAV PHARMA", "Rate": 15.75}, {"Medicine Name": "GABADON-NTP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "GABAPREX-M", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "GABASET TRIO", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 50.0}, {"Medicine Name": "GALVUS 50MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 257.14}, {"Medicine Name": "GIBTULIO MET 12.5MG/500MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 89.25999999999999}, {"Medicine Name": "GLIMY M1", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 45.12}, {"Medicine Name": "GLIMY MVI", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 105.19000000000001}, {"Medicine Name": "GLUCI AMP", "Best Supplier": "GIRISH SURGICALS", "Rate": 25.0}, {"Medicine Name": "GLUCON D POWDER  SCCHUES", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.0}, {"Medicine Name": "GLUCORED FORTE", "Best Supplier": "SRI LAKSHMISAI PHARMACEUTICALS", "Rate": 115.0}, {"Medicine Name": "GLUCORED FORTE  STRIPS", "Best Supplier": "SRI LAKSHMISAI PHARMACEUTICALS", "Rate": 115.0}, {"Medicine Name": "GLUTAREX SOL", "Best Supplier": "GIRISH SURGICALS", "Rate": 720.0}, {"Medicine Name": "GLYCIPAGE SR 500", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 20.28}, {"Medicine Name": "GLYCOMET TRIO 0.5", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 72.96000000000001}, {"Medicine Name": "GRILINCTUS BM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 83.12}, {"Medicine Name": "GRILLINCTUS SYR", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 92.17}, {"Medicine Name": "H2O2", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 6.5}, {"Medicine Name": "HAEMACCEL", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 441.58}, {"Medicine Name": "HARD CERVICAL COLLAR", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 235.0}, {"Medicine Name": "HEAD CAPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 2.0}, {"Medicine Name": "HETRAZAN 100", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 43.589999999999996}, {"Medicine Name": "HINGED KNEE SUPPORT MAGUS", "Best Supplier": "JBS REHABILITATIONS", "Rate": 280.0}, {"Medicine Name": "HINGED KNEE SUPPORT S", "Best Supplier": "JBS REHABILITATIONS", "Rate": 280.0}, {"Medicine Name": "HIRUDAL CREAM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 84.9}, {"Medicine Name": "HIRUDAL CREAM  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 84.9}, {"Medicine Name": "HISONE 100", "Best Supplier": "GIRISH SURGICALS", "Rate": 26.0}, {"Medicine Name": "HIV KIT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 700.0}, {"Medicine Name": "HUMAN MIXTARD 40 IU/ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 140.0}, {"Medicine Name": "HUMAN MIXTARD 40 IU/ML  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 140.0}, {"Medicine Name": "HYALGAN", "Best Supplier": "POORNIMA MEDICALS", "Rate": 1373.43}, {"Medicine Name": "HYDROXYQUINE-200", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 70.0}, {"Medicine Name": "HYPER EXTENSION BRACE", "Best Supplier": "RAFI SURGICALS", "Rate": 700.0}, {"Medicine Name": "I.V CANNULA 18", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 7.0}, {"Medicine Name": "I.V CANNULA 20", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 7.0}, {"Medicine Name": "I.V CANNULA 22", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 7.0}, {"Medicine Name": "I.V CANNULA 24", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 12.0}, {"Medicine Name": "IBA-QUIN", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 80.0}, {"Medicine Name": "IBUBROOK PLUS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 39.21}, {"Medicine Name": "IBUGESIC PLUS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 43.14}, {"Medicine Name": "INDOCAP SR", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "INDOSTAR-75", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "INTAGESIC", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 3.75}, {"Medicine Name": "INTAGESIC AMP", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 3.75}, {"Medicine Name": "IOBAN-2", "Best Supplier": "GIRISH SURGICALS", "Rate": 565.0}, {"Medicine Name": "ITCH GUARD", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 52.46}, {"Medicine Name": "JALAR -M 50MG/500 MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 160.0}, {"Medicine Name": "JULAX", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 45.89}, {"Medicine Name": "K-WIN  ECTIONS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 18.22}, {"Medicine Name": "KARVOL PLUS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 108.32}, {"Medicine Name": "KIDROLYTE 500ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 30.38}, {"Medicine Name": "KIDROLYTE 500ML  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 30.380000000000003}, {"Medicine Name": "KLOTIN 500MG", "Best Supplier": "GIRISH SURGICALS", "Rate": 26.0}, {"Medicine Name": "KNEE CAP (L XL)", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 30.0}, {"Medicine Name": "KNEE O DRAPE", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 550.0}, {"Medicine Name": "KOFLET-SF", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 82.14999999999999}, {"Medicine Name": "KRACK  GENERAL", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 49.5}, {"Medicine Name": "KRAMP NEST", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 89.0}, {"Medicine Name": "KUFF-Q-DX", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "L-HIST", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.0}, {"Medicine Name": "LABLOL", "Best Supplier": "GIRISH SURGICALS", "Rate": 88.0}, {"Medicine Name": "LABLOL  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 88.0}, {"Medicine Name": "LARINATE 200", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 311.42}, {"Medicine Name": "LASIX 4ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 10.2}, {"Medicine Name": "LATEX GLOVES", "Best Supplier": "GIRISH SURGICALS", "Rate": 1.9}, {"Medicine Name": "LAXIKEM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 40.0}, {"Medicine Name": "LEETREXATE-7.5", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 34.0}, {"Medicine Name": "LEVOFUXIN", "Best Supplier": "GIRISH SURGICALS", "Rate": 31.0}, {"Medicine Name": "LEVOQUIN-500MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 22.0}, {"Medicine Name": "LIMCEE", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 18.8}, {"Medicine Name": "LINCEF NOVO-IV", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 70.0}, {"Medicine Name": "LINETIC IV", "Best Supplier": "GIRISH SURGICALS", "Rate": 63.0}, {"Medicine Name": "LINEZOLID", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 115.0}, {"Medicine Name": "LINZALIFE 600", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 110.0}, {"Medicine Name": "LIOFEN 10MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 95.17999999999999}, {"Medicine Name": "LIPAGLYN 4MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 347.15}, {"Medicine Name": "LIVOGEN-Z", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 75.55000000000001}, {"Medicine Name": "LMWX 40", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 165.0}, {"Medicine Name": "LONG KNEE BRACE (XL)", "Best Supplier": "JBS REHABILITATIONS", "Rate": 310.0}, {"Medicine Name": "LOSANORM 50H", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 91.86}, {"Medicine Name": "LOVOLKEM 500", "Best Supplier": "BHARGAV PHARMA", "Rate": 36.45}, {"Medicine Name": "LOVOLKEM IV", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "LOX 2%", "Best Supplier": "GIRISH SURGICALS", "Rate": 25.5}, {"Medicine Name": "LOX 2% ADRENALINE", "Best Supplier": "GIRISH SURGICALS", "Rate": 26.0}, {"Medicine Name": "LOX JELLY 2%", "Best Supplier": "GIRISH SURGICALS", "Rate": 27.0}, {"Medicine Name": "LS BELT", "Best Supplier": "JBS REHABILITATIONS", "Rate": 170.0}, {"Medicine Name": "LULICAN CREAM 30GMS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 241.43}, {"Medicine Name": "LULICAN CREAM 30GMS  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 241.43}, {"Medicine Name": "M.V.I", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 23.75}, {"Medicine Name": "M.V.I  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 23.75}, {"Medicine Name": "MAGCRAMP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 67.5}, {"Medicine Name": "MAGNEX FORTE 1.5GM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 503.43}, {"Medicine Name": "MAHAFLOX 400 MG", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 87.4}, {"Medicine Name": "MAHAFLOX 400 MG   STRIPS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 87.39999999999999}, {"Medicine Name": "MANNITOL", "Best Supplier": "GIRISH SURGICALS", "Rate": 26.0}, {"Medicine Name": "MARTIFUR 100MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 66.92}, {"Medicine Name": "MECOFOL-PLUS", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 38.0}, {"Medicine Name": "MECOFOL-PLUS NF", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 38.0}, {"Medicine Name": "MEFTAL SPAS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "MEFTAL SPAS  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "MEGANERV", "Best Supplier": "BHARGAV PHARMA", "Rate": 5.8}, {"Medicine Name": "MERO 1G", "Best Supplier": "R.K.MEDICAL CORPORATION", "Rate": 250.0}, {"Medicine Name": "MET XL-25MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 68.0}, {"Medicine Name": "METNI-16", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 52.0}, {"Medicine Name": "METODER XL25", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 20.0}, {"Medicine Name": "METRIS 100ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 12.5}, {"Medicine Name": "METXL 25", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 68.0}, {"Medicine Name": "MEZOLAM 10MG", "Best Supplier": "GIRISH SURGICALS", "Rate": 38.0}, {"Medicine Name": "MEZOLAM 10MG  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 38.0}, {"Medicine Name": "MEZOLAM 5MG", "Best Supplier": "GIRISH SURGICALS", "Rate": 22.0}, {"Medicine Name": "MEZOLAM 5MG  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 25.0}, {"Medicine Name": "MICROPENEM 1G", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 250.0}, {"Medicine Name": "MICROTAZ 4.5G", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 100.0}, {"Medicine Name": "MIGRAFEN", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 62.0}, {"Medicine Name": "MIGRANIL EC", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 62.0}, {"Medicine Name": "MIGRANIL EC  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 62.0}, {"Medicine Name": "MISOGESIC SR", "Best Supplier": "SRI LAKSHMISAI PHARMACEUTICALS", "Rate": 57.645}, {"Medicine Name": "MISOGESIC SR  STRIPS", "Best Supplier": "SRI LAKSHMISAI PHARMACEUTICALS", "Rate": 57.75}, {"Medicine Name": "MONOCEF 250MG", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 23.06}, {"Medicine Name": "MONOCEF 500MG", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 28.75}, {"Medicine Name": "MONOTAX 1GM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 22.5}, {"Medicine Name": "MONOTAX 1GM  ECTIONS", "Best Supplier": "R.K.MEDICAL CORPORATION", "Rate": 22.5}, {"Medicine Name": "MOPPING PADS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 14.5}, {"Medicine Name": "MOPPING PADS  STRIPS", "Best Supplier": "R.K.MEDICAL CORPORATION", "Rate": 14.5}, {"Medicine Name": "MOUNJARO 5MG", "Best Supplier": "POORNIMA MEDICALS", "Rate": 3281.25}, {"Medicine Name": "MOVIZ 3D", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 16.0}, {"Medicine Name": "MUPICIP 10GM OIT  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 70.0}, {"Medicine Name": "MYOSTIGMIN", "Best Supplier": "GIRISH SURGICALS", "Rate": 4.2}, {"Medicine Name": "MYOSTIGMIN  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 4.2}, {"Medicine Name": "N 3336", "Best Supplier": "SRI VARAHI SURGICALS AND MEDICALS", "Rate": 52.38}, {"Medicine Name": "NEBICARD-2.5MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 89.28999999999999}, {"Medicine Name": "NEBISTAR 5MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 211.28}, {"Medicine Name": "NEL CATH FG-08", "Best Supplier": "GIRISH SURGICALS", "Rate": 14.0}, {"Medicine Name": "NEL CATH FG-10", "Best Supplier": "GIRISH SURGICALS", "Rate": 14.0}, {"Medicine Name": "NEL CATH FG-12", "Best Supplier": "GIRISH SURGICALS", "Rate": 14.0}, {"Medicine Name": "NEO DROL 1GM", "Best Supplier": "GIRISH SURGICALS", "Rate": 380.0}, {"Medicine Name": "NEO DROL 1GM  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 380.0}, {"Medicine Name": "NEO-DROL 40MG", "Best Supplier": "GIRISH SURGICALS", "Rate": 38.5}, {"Medicine Name": "NEO-DROL 500MG", "Best Supplier": "GIRISH SURGICALS", "Rate": 245.0}, {"Medicine Name": "NEO-DROL 500MG  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 245.0}, {"Medicine Name": "NEOMIT 2 ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 4.0}, {"Medicine Name": "NEOMIT 2 ML  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 4.0}, {"Medicine Name": "NEOMOL", "Best Supplier": "GIRISH SURGICALS", "Rate": 38.0}, {"Medicine Name": "NEOMOL BOTTLES", "Best Supplier": "GIRISH SURGICALS", "Rate": 38.0}, {"Medicine Name": "NEOVAC 4MG", "Best Supplier": "GIRISH SURGICALS", "Rate": 47.4}, {"Medicine Name": "NITRO PLUS", "Best Supplier": "GIRISH SURGICALS", "Rate": 24.5}, {"Medicine Name": "NORAD AMP 2 ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 18.0}, {"Medicine Name": "NORFLOX 400", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "NORFLOX 400  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "NORFLOX E/E DROPS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 12.75}, {"Medicine Name": "NOVA CAST", "Best Supplier": "V L Ankitha Surgicals", "Rate": 195.0}, {"Medicine Name": "NOVACLAV-625 10S", "Best Supplier": "BHARGAV PHARMA", "Rate": 84.5}, {"Medicine Name": "NS 3000 ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 155.0}, {"Medicine Name": "NS 500ML", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 21.5}, {"Medicine Name": "NS-100ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 12.5}, {"Medicine Name": "OF-2000MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 21.0}, {"Medicine Name": "OFLACAD 200", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.0}, {"Medicine Name": "OFLOKEM IV", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 18.2}, {"Medicine Name": "OFLOX", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 35.17}, {"Medicine Name": "OFVISTA-200", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.0}, {"Medicine Name": "OLMARK-20", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 159.82}, {"Medicine Name": "OLMEZEST-CH 40", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 202.85999999999999}, {"Medicine Name": "OLSERTAIN 20", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 102.14}, {"Medicine Name": "OLSERTAIN 40", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 175.91}, {"Medicine Name": "OMEE MPS", "Best Supplier": "BHARGAV PHARMA", "Rate": 22.0}, {"Medicine Name": "ONDET  2ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 6.0}, {"Medicine Name": "ONDET 2ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 6.0}, {"Medicine Name": "ONDIRON AMP  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 4.0}, {"Medicine Name": "ONE TOUCH VERIO", "Best Supplier": "GIRISH SURGICALS", "Rate": 985.0}, {"Medicine Name": "OPTY FIX CANNULA FIXATOR", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 5.0}, {"Medicine Name": "ORNOF", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 94.3}, {"Medicine Name": "OROFER XT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 242.14}, {"Medicine Name": "OROGARD MOUTH INSTA U", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "OROGARD MOUTH INSTA U  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "ORS -L APPLE", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 25.0}, {"Medicine Name": "OSTEOFOS 35", "Best Supplier": "R.K.MEDICAL CORPORATION", "Rate": 122.08999999999999}, {"Medicine Name": "OSTEOTIDE", "Best Supplier": "VIRCHOW LABORATORIES LIMITED", "Rate": 2806.0}, {"Medicine Name": "OVIBACT-M OIT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 42.0}, {"Medicine Name": "OVIBACT-M OIT  GELLS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 42.0}, {"Medicine Name": "OVIRAN M", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 42.0}, {"Medicine Name": "PANTIN IV", "Best Supplier": "BHARGAV PHARMA", "Rate": 12.0}, {"Medicine Name": "PANTOP-D", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 26.5}, {"Medicine Name": "PANTOP-DST CAP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 157.57999999999998}, {"Medicine Name": "PANTOSEC 40MG", "Best Supplier": "BHARGAV PHARMA", "Rate": 20.85}, {"Medicine Name": "PAPER PLASTER YASHY PORE", "Best Supplier": "GIRISH SURGICALS", "Rate": 16.0}, {"Medicine Name": "PARAFAST-IV", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 45.0}, {"Medicine Name": "PARATAS 650", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.0}, {"Medicine Name": "PARKIN", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 16.43}, {"Medicine Name": "PAZOM-D", "Best Supplier": "BHARGAV PHARMA", "Rate": 10.0}, {"Medicine Name": "PELVIC TRACTION BELT", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 400.0}, {"Medicine Name": "PERINORM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 10.8}, {"Medicine Name": "PERINORM  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 4.34}, {"Medicine Name": "PEVESCA PLUS 75", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 132.0}, {"Medicine Name": "PHENERGAN  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 11.58}, {"Medicine Name": "PHEXIN 250 REDI", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 165.75}, {"Medicine Name": "PICTUM-4.5GM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 98.0}, {"Medicine Name": "PIPZO 1.125GM", "Best Supplier": "ANNAPURNA MEDICALS", "Rate": 66.44166666666666}, {"Medicine Name": "PIROX 1M AMP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.5}, {"Medicine Name": "PIROXITAS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 4.55}, {"Medicine Name": "POLYVAC SET 10", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 160.0}, {"Medicine Name": "POLYVAC SET 12", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 155.0}, {"Medicine Name": "POLYVAC SET 14", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 165.0}, {"Medicine Name": "POLYVAC SET 16", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 165.0}, {"Medicine Name": "POTCL  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 14.0}, {"Medicine Name": "POTKLOR  GENERAL", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 50.4}, {"Medicine Name": "POTKLOR GENERAL", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 50.4}, {"Medicine Name": "POVIKEM 100ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "PRE-GABAPREX CAP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 20.6}, {"Medicine Name": "PREGABEL - M", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 26.0}, {"Medicine Name": "PREGARAIN-M", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 27.0}, {"Medicine Name": "PROMAX MILK POWDER", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 70.0}, {"Medicine Name": "PROTITAS POWDER", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 70.0}, {"Medicine Name": "PYRABIS 1000", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 50.0}, {"Medicine Name": "PYROLATE 1ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 11.4}, {"Medicine Name": "PYROLATE 1ML  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 11.4}, {"Medicine Name": "QMAX 200", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 11.75}, {"Medicine Name": "RABICIP-20MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 126.47999999999999}, {"Medicine Name": "RANTAC 150 MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 34.812}, {"Medicine Name": "RANTAC 2ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 3.0}, {"Medicine Name": "RANTAC 2ML  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 3.0}, {"Medicine Name": "RAZO 20M", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 190.71}, {"Medicine Name": "REDOTIL 100MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 335.57}, {"Medicine Name": "REDOTIL CAP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 335.54}, {"Medicine Name": "RENERV PLUS AMP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 101.0}, {"Medicine Name": "RENERVE PLUS CAPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 228.32}, {"Medicine Name": "RESTYL 0.5 MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "RESTYL 1MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 45.42}, {"Medicine Name": "RIB BELT", "Best Supplier": "JBS REHABILITATIONS", "Rate": 115.0}, {"Medicine Name": "RITECEF 1G", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 24.0}, {"Medicine Name": "RL 500 ML", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 23.5}, {"Medicine Name": "ROLIFLO OD 4MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 263.57}, {"Medicine Name": "ROMO VAC SET (FG - 10)", "Best Supplier": "GIRISH SURGICALS", "Rate": 174.51}, {"Medicine Name": "ROMO VAC SET (FG - 12)", "Best Supplier": "GIRISH SURGICALS", "Rate": 172.59}, {"Medicine Name": "ROMO VAC SET (FG - 14)", "Best Supplier": "GIRISH SURGICALS", "Rate": 194.39}, {"Medicine Name": "RONOCAL-150", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "ROTAHALER  ROTACAPS", "Best Supplier": "ANUPAMA MEDICAL SYNDICATE", "Rate": 145.14000000000001}, {"Medicine Name": "RUTOEASE", "Best Supplier": "PRANAV MEDICAL AGENCIES", "Rate": 48.915}, {"Medicine Name": "SAFEXIM-100", "Best Supplier": "BHARGAV PHARMA", "Rate": 31.0}, {"Medicine Name": "SAFTI NV", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 10.5}, {"Medicine Name": "SAVLON", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 200.0}, {"Medicine Name": "SAVLON 1OOML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "SAZO 500", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 57.6}, {"Medicine Name": "SEPTILIN", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 196.42}, {"Medicine Name": "SERENACE", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 5.22}, {"Medicine Name": "SERENACE  ECTIONS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 5.220000000000001}, {"Medicine Name": "SHELCAL 500MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 354.0}, {"Medicine Name": "SHOULDER IMMOBILIZER SPECIAL", "Best Supplier": "GIRISH SURGICALS", "Rate": 335.0}, {"Medicine Name": "SHOULDER IMMOBOLIZER", "Best Supplier": "JBS REHABILITATIONS", "Rate": 145.0}, {"Medicine Name": "SILKO CATH FG-14", "Best Supplier": "GIRISH SURGICALS", "Rate": 135.0}, {"Medicine Name": "SILKO CATH FG12", "Best Supplier": "GIRISH SURGICALS", "Rate": 135.0}, {"Medicine Name": "SINAREST  15S", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 85.71000000000001}, {"Medicine Name": "SINAREST 15S", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 85.71}, {"Medicine Name": "SINAREST 60ML", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 105.1}, {"Medicine Name": "SINAREST PLUS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 105.9}, {"Medicine Name": "SKICEEF", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 100.0}, {"Medicine Name": "SKIN STAPLER DISPOSABLE", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 300.0}, {"Medicine Name": "SN 018", "Best Supplier": "GIRISH SURGICALS", "Rate": 99.5}, {"Medicine Name": "SN 2347", "Best Supplier": "V L Ankitha Surgicals", "Rate": 287.34999999999997}, {"Medicine Name": "SN 2421", "Best Supplier": "V L Ankitha Surgicals", "Rate": 361.2}, {"Medicine Name": "SN 3336", "Best Supplier": "V L Ankitha Surgicals", "Rate": 99.39999999999999}, {"Medicine Name": "SN 5002", "Best Supplier": "GIRISH SURGICALS", "Rate": 116.5}, {"Medicine Name": "SN 643", "Best Supplier": "SRUTHISURGICALS", "Rate": 190.0}, {"Medicine Name": "SN 645", "Best Supplier": "SRUTHISURGICALS", "Rate": 175.0}, {"Medicine Name": "SN 825", "Best Supplier": "GIRISH SURGICALS", "Rate": 273.5}, {"Medicine Name": "SN 849", "Best Supplier": "V L Ankitha Surgicals", "Rate": 138.6}, {"Medicine Name": "SOFT CERVICAL COLLAR (L)", "Best Supplier": "JBS REHABILITATIONS", "Rate": 95.0}, {"Medicine Name": "SONIC SUPER", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": NaN}, {"Medicine Name": "SONIC SUPER GEL  OINTMENTS", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 14.5}, {"Medicine Name": "SONIC-AQ", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 2.75}, {"Medicine Name": "SOSARANE", "Best Supplier": "GIRISH SURGICALS", "Rate": 720.0}, {"Medicine Name": "SPINAL NEEDLE 23", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 70.0}, {"Medicine Name": "SPINAL NEEDLE 25", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 70.0}, {"Medicine Name": "SPORALAC DS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 155.33}, {"Medicine Name": "SPORALAC DS  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 155.33}, {"Medicine Name": "STANCORT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 26.0}, {"Medicine Name": "STAPLE REMOVER", "Best Supplier": "GIRISH SURGICALS", "Rate": 250.0}, {"Medicine Name": "STARVOG M 0.2", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 59.64}, {"Medicine Name": "STERILE WATER", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 2.0}, {"Medicine Name": "STERIZONE", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 91.0}, {"Medicine Name": "SUCOL", "Best Supplier": "GIRISH SURGICALS", "Rate": 43.75}, {"Medicine Name": "SUCOL  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 43.75}, {"Medicine Name": "SUCRACHEM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 63.0}, {"Medicine Name": "SUCRALLY-O", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 63.0}, {"Medicine Name": "SUMO GEL  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.5}, {"Medicine Name": "SUREPANAM 200MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 250.0}, {"Medicine Name": "SURGICAL BLADE 11  pack", "Best Supplier": "GIRISH SURGICALS", "Rate": 3.14}, {"Medicine Name": "SURGICAL BLADE 15", "Best Supplier": "V L Ankitha Surgicals", "Rate": 2.8}, {"Medicine Name": "SURGICAL BLADE 15  pack", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 3.15}, {"Medicine Name": "SURGICAL BLADE 22", "Best Supplier": "GIRISH SURGICALS", "Rate": 3.14}, {"Medicine Name": "SURGICAL GUAZE", "Best Supplier": "R.K.MEDICAL CORPORATION", "Rate": 150.0}, {"Medicine Name": "SURGICAL PAD SMALL", "Best Supplier": "BHARGAV PHARMA", "Rate": 8.0}, {"Medicine Name": "SURGICAL PAD SMALL 14CM X 8CM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 9.0}, {"Medicine Name": "SURGICAL SCRUB", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 48.0}, {"Medicine Name": "SURGICAL SPIRIT 100 ML", "Best Supplier": "BHARGAV PHARMA", "Rate": 17.5}, {"Medicine Name": "SURGICAL SPIRIT 400 ML", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 50.0}, {"Medicine Name": "SURGICARE 7.0", "Best Supplier": "R S SURICALS", "Rate": 16.1}, {"Medicine Name": "SURGICARE 7.5", "Best Supplier": "R S SURICALS", "Rate": 16.1}, {"Medicine Name": "SURGICARE 8.0", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 20.0}, {"Medicine Name": "SYNDOPA PLUS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.83}, {"Medicine Name": "Surgical Pad Large", "Best Supplier": "BHARGAV PHARMA", "Rate": 10.0}, {"Medicine Name": "Surgical Pad Large  SCCHUES", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 10.75}, {"Medicine Name": "T-BACT OINT 5MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 70.0}, {"Medicine Name": "T-BACT OINT 5MG  CREAMS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 70.0}, {"Medicine Name": "T.T. AMP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 9.35}, {"Medicine Name": "T.T. AMP  ECTIONS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 9.35}, {"Medicine Name": "T.U.R SET", "Best Supplier": "GIRISH SURGICALS", "Rate": 95.0}, {"Medicine Name": "T.U.R.SET  GENERAL", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 95.0}, {"Medicine Name": "TELGARD-40", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "TELMA 40MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 82.56}, {"Medicine Name": "TELMIDUCE 40", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.569999999999997}, {"Medicine Name": "TELSARTAN 20MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 47.239999999999995}, {"Medicine Name": "TELSARTAN 40MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 82.48}, {"Medicine Name": "TELVAS 40", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 25.0}, {"Medicine Name": "TENNIS ELBOW SUPPORT", "Best Supplier": "JBS REHABILITATIONS", "Rate": 80.0}, {"Medicine Name": "TERMIN 10ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 269.0}, {"Medicine Name": "TERMIN 10ML  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 269.0}, {"Medicine Name": "TEXAKIND AMP", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "THEMITAZ", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 100.0}, {"Medicine Name": "THERMOMETER", "Best Supplier": "GIRISH SURGICALS", "Rate": 160.0}, {"Medicine Name": "THIODOC-4", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 62.0}, {"Medicine Name": "THIONOXIDE 4 MG", "Best Supplier": "BHARGAV PHARMA", "Rate": 61.25}, {"Medicine Name": "THIOSOL", "Best Supplier": "GIRISH SURGICALS", "Rate": 38.3}, {"Medicine Name": "THREPTIN BISCUITS", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 361.89}, {"Medicine Name": "THUMB SPICA SPLINT", "Best Supplier": "JBS REHABILITATIONS", "Rate": 90.0}, {"Medicine Name": "THYRONORM 100 MG", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 163.22}, {"Medicine Name": "TOCOMORE", "Best Supplier": "VENKATA SRI DURGA SRAVANI MEDICALS", "Rate": 219.79}, {"Medicine Name": "TODOBIS-400 ER", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 78.5}, {"Medicine Name": "TOP C NET", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 71.0}, {"Medicine Name": "TORSINOL PLUS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 100.0}, {"Medicine Name": "TRAMADUS-P", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 21.85}, {"Medicine Name": "TRAMANAM", "Best Supplier": "BHARGAV PHARMA", "Rate": 5.25}, {"Medicine Name": "TRAMEF -P", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 22.0}, {"Medicine Name": "TRAMEF -P  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 22.0}, {"Medicine Name": "TRAPIC E", "Best Supplier": "SRI PRASANNA SAI MEDICAL AGENCIES", "Rate": 227.14}, {"Medicine Name": "TRENTAL 400", "Best Supplier": "SRINIVASA LIFECARE PRIVATE LIMITED", "Rate": 65.28}, {"Medicine Name": "TRICIUM 30 DAYS", "Best Supplier": "GIRISH SURGICALS", "Rate": 3700.0}, {"Medicine Name": "TRIKA 0.5", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 57.71}, {"Medicine Name": "TRIVILIB 2", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 253.57}, {"Medicine Name": "TRIVOLIB 1 TAN", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 189.29}, {"Medicine Name": "TROPINE", "Best Supplier": "GIRISH SURGICALS", "Rate": 3.82}, {"Medicine Name": "TROPINE  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 3.82}, {"Medicine Name": "TRYPTOMER 25 MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 59.64}, {"Medicine Name": "TRYPTOMER 25 MG  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 59.64}, {"Medicine Name": "TUSQ -D - SYRUPCROSS LAB", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 78.58}, {"Medicine Name": "TUSQ D 100ML", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 78.67}, {"Medicine Name": "UDILIV-150", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 401.55}, {"Medicine Name": "ULTRA KING", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 2.5}, {"Medicine Name": "UNDER PADS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 16.0}, {"Medicine Name": "URIRON", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 51.5}, {"Medicine Name": "URO BAG", "Best Supplier": "SRI RAGHAVENDRA SURGICALS", "Rate": 30.0}, {"Medicine Name": "UROMETER CAP 2000ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 88.0}, {"Medicine Name": "VACCU SUCK TUBE LENT 2.5 M", "Best Supplier": "GIRISH SURGICALS", "Rate": 95.0}, {"Medicine Name": "VALERA", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 295.0}, {"Medicine Name": "VANCOMA500G", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 100.0}, {"Medicine Name": "VANCOMAX-1GM", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 190.0}, {"Medicine Name": "VANKING 500MG", "Best Supplier": "GIRISH SURGICALS", "Rate": 85.0}, {"Medicine Name": "VANKING 500MG  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 85.0}, {"Medicine Name": "VANKING-1000MG", "Best Supplier": "GIRISH SURGICALS", "Rate": 177.0}, {"Medicine Name": "VANKING-1000MG  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 177.0}, {"Medicine Name": "VASOCON 1ML", "Best Supplier": "GIRISH SURGICALS", "Rate": 10.5}, {"Medicine Name": "VASOCON 1ML  ECTIONS", "Best Supplier": "GIRISH SURGICALS", "Rate": 10.5}, {"Medicine Name": "VELPOP 4", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 35.0}, {"Medicine Name": "VELPOP 6", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 45.0}, {"Medicine Name": "VEPAN 500", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 53.67999999999999}, {"Medicine Name": "VERTIN 24MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 403.81}, {"Medicine Name": "VERTIRON", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 35.0}, {"Medicine Name": "VETIRA 100MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 90.0}, {"Medicine Name": "VIBACT-DS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 167.25}, {"Medicine Name": "VICRA-M", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 103.57000000000001}, {"Medicine Name": "VIRACORT IML", "Best Supplier": "VIRCHOW LABORATORIES LIMITED", "Rate": 79.5}, {"Medicine Name": "VITAFOL", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "VITRINAL", "Best Supplier": "GIRISH SURGICALS", "Rate": 26.0}, {"Medicine Name": "VOBOSE 0.3MG", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 89.0}, {"Medicine Name": "VOGLI 0.3", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 166.43}, {"Medicine Name": "VOGS 0.3", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 151.43}, {"Medicine Name": "VOLIBO 0.3", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 111.33999999999999}, {"Medicine Name": "VOLIMUST PLUS GEL  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 16.0}, {"Medicine Name": "VOLIX TRIO 2", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 253.57}, {"Medicine Name": "VOVERAN GEL  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 118.22}, {"Medicine Name": "WELONI GEL  OINTMENTS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 14.0}, {"Medicine Name": "WIKORYL", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 60.14}, {"Medicine Name": "WOSULIN 30/70V AIL", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 140.0}, {"Medicine Name": "WRIST BAND", "Best Supplier": "JBS REHABILITATIONS", "Rate": 35.0}, {"Medicine Name": "WRIST SPLINT", "Best Supplier": "SRI BHAVANI SURGICALS", "Rate": 212.5}, {"Medicine Name": "WYSOLONE 10", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.35}, {"Medicine Name": "WYSOLONE 10  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 15.35}, {"Medicine Name": "ZENFLOX 200MG", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 50.1}, {"Medicine Name": "ZEROKLOT 40MG/0.4LI", "Best Supplier": "GIRISH SURGICALS", "Rate": 166.0}, {"Medicine Name": "ZEVERT MD 24", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 300.71}, {"Medicine Name": "ZINCOLITE", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "ZINCOVIT", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "ZINCOVIT  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 30.0}, {"Medicine Name": "ZOFER", "Best Supplier": "SRI SWARNA SAI MEDICALS", "Rate": 9.540000000000001}, {"Medicine Name": "ZOLFRESH", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 102.11}, {"Medicine Name": "ZOLFRESH  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 102.11}, {"Medicine Name": "ZOLFRESH 5  SCCHUES", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 74.51}, {"Medicine Name": "ZOLFRESH 5 SCCHUES", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 74.51}, {"Medicine Name": "ZORYL -M 1  STRIPS", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 311.43}, {"Medicine Name": "ZYNAC 3ML", "Best Supplier": "VAAGDEVI MEDICAL HALL", "Rate": 2.25}, {"Medicine Name": "dolomust-p", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 5.0}, {"Medicine Name": "shelcoline D3", "Best Supplier": "RITHWIK MEDICAL CORPORATION", "Rate": 65.0}];
+
+// Supabase returns timestamps without 'Z' — this forces correct UTC→IST conversion
+function parseDBTime(ts) {
+  if (!ts) return null;
+  // Append Z if not present so JS treats it as UTC
+  const str = ts.endsWith('Z') || ts.includes('+') ? ts : ts + 'Z';
+  return new Date(str);
+}
 
 // ── Loading overlay
 function showLoading(msg) {
@@ -2071,29 +2632,45 @@ async function dbSetAdminPin(newPin) {
 // DB: AUDIT SESSIONS
 // ════════════════════════════════
 async function dbSaveSession(staffName, entries) {
-  // Create session
-  const { data: session, error: sErr } = await sb
-    .from('audit_sessions')
-    .insert({ staff_name: staffName })
-    .select().single();
-  if (sErr) { console.error('Session error:', sErr); return false; }
+  try {
+    // Create session
+    const { data: session, error: sErr } = await sb
+      .from('audit_sessions')
+      .insert({ staff_name: staffName })
+      .select().single();
 
-  // Insert entries
-  const rows = entries.map(e => ({
-    session_id: session.id,
-    medicine: e.medicine,
-    rack_name: e.rackName || '',
-    system_stock: e.systemStock,
-    rack_stock: e.rackStock,
-    difference: e.difference,
-    last_counted_date: e.lastCountedDate || null,
-    last_counted_stock: e.lastCountedStock || null,
-    last_counted_sys_stock: e.lastCountedSysStock || null
-  }));
+    if (sErr) {
+      showToast('DB Error (session): ' + sErr.message, 'error');
+      console.error('Session save error:', JSON.stringify(sErr));
+      return false;
+    }
 
-  const { error: eErr } = await sb.from('audit_entries').insert(rows);
-  if (eErr) { console.error('Entries error:', eErr); return false; }
-  return true;
+    // Insert all entries
+    const rows = entries.map(e => ({
+      session_id:             session.id,
+      medicine:               e.medicine,
+      rack_name:              e.rackName || '',
+      system_stock:           Number(e.systemStock) || 0,
+      rack_stock:             Number(e.rackStock) || 0,
+      difference:             Number(e.difference) || 0,
+      last_counted_date:      e.lastCountedDate || null,
+      last_counted_stock:     e.lastCountedStock ? Number(e.lastCountedStock) : null,
+      last_counted_sys_stock: e.lastCountedSysStock ? Number(e.lastCountedSysStock) : null
+    }));
+
+    const { error: eErr } = await sb.from('audit_entries').insert(rows);
+    if (eErr) {
+      showToast('DB Error (entries): ' + eErr.message, 'error');
+      console.error('Entries save error:', JSON.stringify(eErr));
+      return false;
+    }
+
+    return true;
+  } catch(ex) {
+    showToast('Unexpected error: ' + ex.message, 'error');
+    console.error('dbSaveSession exception:', ex);
+    return false;
+  }
 }
 
 async function dbLoadHistory() {
@@ -2122,7 +2699,7 @@ async function dbLoadHistory() {
 
 // ─── Date displays
 const now = new Date();
-const dateStr = now.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
+const dateStr = now.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric', timeZone:'Asia/Kolkata'});
 document.getElementById('auditDate').textContent = dateStr;
 document.getElementById('alertDate').textContent = dateStr;
 document.getElementById('sidebarDate').textContent = dateStr;
@@ -2151,6 +2728,10 @@ function switchPage(page) {
   if (page === 'master') renderMasterList();
   if (page === 'history') { loadHistoryFromDB().then(() => renderHistory()); }
   if (page === 'deadstock') renderDeadStock();
+  if (page === 'orders') initOrdersPage();
+  if (page === 'users') loadUsers();
+  if (page === 'pricereport') initPriceReport();
+  if (page === 'today') loadTodayAudit();
 }
 
 // ════════════════════════════════
@@ -2218,7 +2799,7 @@ function addRow() {
   const id   = Date.now();
 
   const prevMem = rackMemory[med] ? {...rackMemory[med]} : null;
-  const countDate = now.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'});
+  const countDate = now.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'});
   rackMemory[med] = { rackName, lastDate: countDate, lastRackStock: rackN, lastSysStock: sysN };
 
   entries.push({
@@ -2318,6 +2899,25 @@ async function submitData() {
     showToast('Saved locally (DB sync failed)', 'error');
   }
 
+  // Push submitted entries into todayEntries immediately for instant visibility
+  const now = new Date();
+  const timeLabel = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'});
+  for (const e of payload) {
+    todayEntries.unshift({
+      medicine:    e.medicine,
+      rackName:    e.rackName || '—',
+      systemStock: e.systemStock,
+      rackStock:   e.rackStock,
+      difference:  e.difference,
+      staff:       currentUser,
+      time:        timeLabel,
+      status:      e.difference < 0 ? 'shortage' : e.difference > 0 ? 'excess' : 'matched'
+    });
+  }
+  // Update nav badge
+  const badge = document.getElementById('todayNavBadge');
+  if (badge) { badge.textContent = todayEntries.length; badge.classList.toggle('visible', todayEntries.length > 0); }
+
   entries = []; renderTable(); updateSummary();
   btn.textContent = 'Submit to Database'; btn.disabled = true;
   const eb = document.getElementById('exportBtn'); if(eb) { eb.disabled = true; }
@@ -2350,7 +2950,7 @@ async function loadAlertData() {
       latestMap[row.medicine] = {
         name: row.medicine,
         rack: row.rack_name || '—',
-        lastCounted: row.created_at ? row.created_at.split('T')[0] : null,
+        lastCounted: row.created_at ? parseDBTime(row.created_at).toLocaleDateString('en-CA', {timeZone:'Asia/Kolkata'}) : null,
         lastRackStock: row.rack_stock
       };
     }
@@ -2435,7 +3035,7 @@ function renderAlertTable(filter, thr) {
 
 
     const lastDate  = r.lastCounted
-      ? new Date(r.lastCounted).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})
+      ? new Date(r.lastCounted).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric', timeZone:'Asia/Kolkata'})
       : `<span class="never-text">— never —</span>`;
 
     const lastStock = r.lastRackStock !== null
@@ -3222,88 +3822,148 @@ function renderMasterList() {
 // AUTH / ROLE LOGIC
 // ════════════════════════════════
 // PIN stored in localStorage so admin can change it
-let cachedAdminPin = null;
-function getAdminPin() {
-  // Return cached pin (loaded on startup), fallback to localStorage
-  return cachedAdminPin || localStorage.getItem('pharmstock_admin_pin') || '1234';
-}
+// ── Auth state
 let currentUser = null;
-let currentRole = 'staff';
-let selectedRole = 'staff';
+let currentRole = null;
+let currentUserId = null;
 
-function selectRole(role) {
-  selectedRole = role;
-  document.getElementById('roleStaff').classList.toggle('selected', role === 'staff');
-  document.getElementById('roleAdmin').classList.toggle('selected', role === 'admin');
-  document.getElementById('pinField').style.display = role === 'admin' ? 'flex' : 'none';
-  document.getElementById('loginError').textContent = '';
+// Hash password using SHA-256 (same as Supabase stored)
+async function hashPassword(password) {
+  const msgBuffer = new TextEncoder().encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 async function doLogin() {
-  const name = document.getElementById('loginName').value.trim();
-  if (!name) { document.getElementById('loginError').textContent = 'Please enter your name.'; return; }
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl    = document.getElementById('loginError');
 
-  if (selectedRole === 'admin') {
-    const pin = document.getElementById('adminPin').value;
-    const correctPin = await dbGetAdminPin();
-    cachedAdminPin = correctPin;
-    if (pin !== correctPin) {
-      document.getElementById('loginError').textContent = 'Incorrect PIN. Try again.';
-      document.getElementById('adminPin').value = '';
+  if (!username || !password) { errEl.textContent = 'Please enter username and password.'; return; }
+
+  errEl.textContent = 'Signing in…';
+
+  try {
+    // Hash the password
+    const hashed = await hashPassword(password);
+
+    // DEBUG — show what we are sending
+    console.log('Username:', username);
+    console.log('Hashed PW:', hashed);
+
+    // Look up user by username first, then compare hash locally
+    const { data, error } = await sb
+      .from('users')
+      .select('id, name, role, is_active, password_hash')
+      .eq('username', username)
+      .single();
+
+    console.log('DB result data:', JSON.stringify(data));
+    console.log('DB result error:', JSON.stringify(error));
+
+    if (error || !data) {
+      errEl.textContent = 'User not found: ' + (error?.message || 'no data');
+      document.getElementById('loginPassword').value = '';
       return;
     }
-  }
 
-  currentUser = name;
-  currentRole = selectedRole;
-  applyRole();
-  document.getElementById('loginScreen').style.display = 'none';
-  showToast('Welcome, ' + name + '!', 'success');
+    // Compare password hash locally
+    console.log('DB hash:', data.password_hash);
+    console.log('Local hash:', hashed);
+    console.log('Match:', data.password_hash === hashed);
+
+    if (data.password_hash !== hashed) {
+      errEl.textContent = 'Wrong password. DB:' + data.password_hash.substring(0,10) + ' Local:' + hashed.substring(0,10);
+      document.getElementById('loginPassword').value = '';
+      return;
+    }
+
+    if (!data.is_active) {
+      errEl.textContent = 'Your account has been deactivated. Contact admin.';
+      return;
+    }
+
+    currentUser   = data.name;
+    currentRole   = data.role;
+    currentUserId = data.id;
+
+    applyRole();
+    document.getElementById('loginScreen').style.display = 'none';
+    errEl.textContent = '';
+    showToast('Welcome, ' + currentUser + '! 👋', 'success');
+
+  } catch(ex) {
+    errEl.textContent = 'Login error: ' + ex.message;
+  }
 }
 
 function applyRole() {
-  // Sidebar user info
   document.getElementById('sidebarUser').textContent = currentUser;
   const pill = document.getElementById('rolePill');
-  pill.textContent = currentRole === 'admin' ? '🔐 Admin' : '👨‍⚕️ Staff';
+  const roleLabels = { admin:'🔐 Admin', supervisor:'👁️ Supervisor', stock_audit:'👨‍⚕️ Stock Audit' };
+  pill.textContent = roleLabels[currentRole] || currentRole;
   pill.className = 'role-pill ' + currentRole;
 
-  // Lock/unlock Remove Medicine card
-  const lock = document.getElementById('delCardLock');
-  if (lock) lock.style.display = currentRole === 'admin' ? 'none' : 'flex';
-
-  // Show Export Excel button for admin only
-  const exportBtn = document.getElementById('exportBtn');
-  if (exportBtn) {
-    if (currentRole === 'admin') exportBtn.classList.add('visible');
-    else exportBtn.classList.remove('visible');
-  }
-
-  // Show Audit History nav for admin only
-  const histNav = document.getElementById('nav-history');
-  if (histNav) histNav.style.display = currentRole === 'admin' ? 'flex' : 'none';
-
-  const deadNav = document.getElementById('nav-deadstock');
-  if (deadNav) deadNav.style.display = currentRole === 'admin' ? 'flex' : 'none';
-
-  const cpBtn = document.getElementById('changePinBtn');
-  if (cpBtn) cpBtn.classList.toggle('visible', currentRole === 'admin');
-
-  // Date badge in audit page
+  // Date badge
   document.getElementById('auditDate').textContent = dateStr;
+
+  // Nav visibility
+  const isAdmin      = currentRole === 'admin';
+  const isSupervisor = currentRole === 'supervisor';
+  const hasOrders    = isAdmin || isSupervisor;
+  const hasAudit     = isAdmin || isSupervisor || currentRole === 'stock_audit';
+
+  // Audit nav items — all roles
+  setNavVisible('nav-audit',     hasAudit);
+  setNavVisible('nav-today',     hasAudit);
+  setNavVisible('nav-alerts',    hasAudit);
+  setNavVisible('nav-master',    hasAudit);
+
+  // Orders nav — supervisor + admin
+  setNavVisible('nav-orders',    hasOrders);
+
+  // Admin only
+  setNavVisible('nav-history',     isAdmin);
+  setNavVisible('nav-deadstock',   isAdmin);
+  setNavVisible('nav-users',       isAdmin);
+  setNavVisible('nav-pricereport', isAdmin);
+
+  // Lock/unlock medicine hide card
+  const lock = document.getElementById('delCardLock');
+  if (lock) lock.style.display = isAdmin ? 'none' : 'flex';
+
+  // Export button
+  const exportBtn = document.getElementById('exportBtn');
+  if (exportBtn) exportBtn.classList.toggle('visible', isAdmin);
+
+  // Change PIN btn
+  const cpBtn = document.getElementById('changePinBtn');
+  if (cpBtn) cpBtn.classList.toggle('visible', isAdmin);
+
+  // Switch to first available page
+  if (hasAudit) switchPage('audit');
+  else if (hasOrders) switchPage('orders');
+}
+
+function setNavVisible(id, visible) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = visible ? 'flex' : 'none';
 }
 
 function logout() {
-  currentUser = null; currentRole = 'staff'; selectedRole = 'staff';
-  document.getElementById('loginName').value = '';
-  document.getElementById('adminPin').value = '';
-  document.getElementById('adminPin') && (document.getElementById('pinField').style.display = 'none');
-  document.getElementById('roleStaff').classList.add('selected');
-  document.getElementById('roleAdmin').classList.remove('selected');
+  currentUser = null; currentRole = null; currentUserId = null;
+  document.getElementById('loginUsername').value = '';
+  document.getElementById('loginPassword').value = '';
   document.getElementById('loginError').textContent = '';
   document.getElementById('loginScreen').style.display = 'flex';
   closeNav();
   showToast('Logged out successfully.', 'success');
+}
+
+// Legacy getAdminPin — kept for PIN change modal compatibility
+function getAdminPin() {
+  return localStorage.getItem('pharmstock_admin_pin') || '1234';
 }
 
 // Init dropdown from dynamic list
@@ -3321,7 +3981,7 @@ function exportToExcel() {
   // ── Sheet 1: Audit Data
   const auditRows = [
     ['PharmStock — Physical Audit Report'],
-    ['Generated:', new Date().toLocaleString('en-IN')],
+    ['Generated:', new Date().toLocaleString('en-IN', {timeZone:'Asia/Kolkata'})],
     ['Staff:', currentUser],
     ['Date:', dateStr],
     [],
@@ -3466,9 +4126,9 @@ function renderHistory() {
   }
 
   list.innerHTML = filtered.map((s, si) => {
-    const dt = new Date(s.submittedAt);
-    const dateLabel = dt.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
-    const timeLabel = dt.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'});
+    const dt = parseDBTime(s.submittedAt);
+    const dateLabel = dt.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric', timeZone:'Asia/Kolkata'});
+    const timeLabel = dt.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'});
     const exc = s.entries.filter(e => e.difference > 0).length;
     const sho = s.entries.filter(e => e.difference < 0).length;
     const mat = s.entries.filter(e => e.difference === 0).length;
@@ -3556,9 +4216,9 @@ function exportSession(id) {
   const sessions = getHistory();
   const s = sessions.find(s => s.id === id);
   if (!s) return;
-  const dt = new Date(s.submittedAt);
-  const dateLabel = dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-  const timeLabel = dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  const dt = parseDBTime(s.submittedAt);
+  const dateLabel = dt.toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric', timeZone:'Asia/Kolkata'});
+  const timeLabel = dt.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit', timeZone:'Asia/Kolkata'});
 
   const wb = XLSX.utils.book_new();
   const rows = [
@@ -3593,9 +4253,9 @@ function exportAllHistory() {
   // All sessions flat
   const rows = [['Session Date','Time','Staff','Medicine','Rack','System Stock','Rack Stock','Difference','Status']];
   sessions.forEach(s => {
-    const dt = new Date(s.submittedAt);
-    const dl = dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-    const tl = dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    const dt = parseDBTime(s.submittedAt);
+    const dl = dt.toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric', timeZone:'Asia/Kolkata'});
+    const tl = dt.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit', timeZone:'Asia/Kolkata'});
     s.entries.forEach(e => {
       rows.push([dl, tl, s.staff, e.medicine, e.rackName||'', e.systemStock, e.rackStock, e.difference,
         e.difference > 0 ? 'EXCESS' : e.difference < 0 ? 'SHORTAGE' : 'MATCHED']);
@@ -3609,9 +4269,9 @@ function exportAllHistory() {
   // Per-medicine history sheet
   const medMap = {};
   sessions.forEach(s => {
-    const dt = new Date(s.submittedAt);
-    const dl = dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-    const tl = dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    const dt = parseDBTime(s.submittedAt);
+    const dl = dt.toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric', timeZone:'Asia/Kolkata'});
+    const tl = dt.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit', timeZone:'Asia/Kolkata'});
     s.entries.forEach(e => {
       if (!medMap[e.medicine]) medMap[e.medicine] = [];
       medMap[e.medicine].push([dl, tl, s.staff, e.rackName||'', e.systemStock, e.rackStock, e.difference,
@@ -3645,11 +4305,11 @@ function getLastCountedInfo(medName) {
   for (const s of sessions) {
     for (const e of s.entries) {
       if (e.medicine.toLowerCase() === medName.toLowerCase()) {
-        const dt = new Date(s.submittedAt);
+        const dt = parseDBTime(s.submittedAt);
         if (!latest || dt > latest.date) {
           latest = {
             date: dt,
-            dateLabel: dt.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'}),
+            dateLabel: dt.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric', timeZone:'Asia/Kolkata'}),
             daysSince: Math.floor((new Date() - dt) / 86400000),
             rackStock: e.rackStock,
             staff: s.staff
@@ -3779,7 +4439,7 @@ function exportDeadStock() {
   const wb = XLSX.utils.book_new();
   const rows = [
     [`PharmStock — Dead Stock Report (threshold: ${threshold} days)`],
-    ['Generated:', new Date().toLocaleString('en-IN')],
+    ['Generated:', new Date().toLocaleString('en-IN', {timeZone:'Asia/Kolkata'})],
     [],
     ['#', 'Medicine Name', 'Status', 'Last Counted Date', 'Days Since Count', 'Last Rack Stock', 'Last Counted By']
   ];
@@ -3871,6 +4531,796 @@ async function savePinChange() {
   showToast('PIN updated successfully! 🔑', 'success');
 }
 
+
+// ════════════════════════════════
+// TODAY'S AUDIT LOGIC
+// ════════════════════════════════
+let todayEntries = [];
+let todayFilter  = 'all';
+
+async function loadTodayAudit() {
+  showLoading('Loading today\'s audit…');
+
+  // Set date label
+  const now = new Date();
+  const label = now.toLocaleDateString('en-IN', { weekday:'long', day:'2-digit', month:'long', year:'numeric', timeZone:'Asia/Kolkata'});
+  const el = document.getElementById('todayPageDate');
+  if (el) el.textContent = label;
+
+  todayEntries = [];
+
+  // ── Load from Supabase DB ──
+  try {
+    const start = new Date(); start.setHours(0,0,0,0);
+    const end   = new Date(); end.setHours(23,59,59,999);
+
+    const { data: sessions, error } = await sb
+      .from('audit_sessions')
+      .select('id, staff_name, submitted_at, audit_entries(*)')
+      .gte('submitted_at', start.toISOString())
+      .lte('submitted_at', end.toISOString())
+      .order('submitted_at', { ascending: false });
+
+    if (!error && sessions) {
+      for (const s of sessions) {
+        const time = parseDBTime(s.submitted_at).toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'});
+        for (const e of (s.audit_entries || [])) {
+          todayEntries.push({
+            medicine:    e.medicine,
+            rackName:    e.rack_name || '—',
+            systemStock: e.system_stock,
+            rackStock:   e.rack_stock,
+            difference:  e.difference,
+            staff:       s.staff_name,
+            time:        time,
+            status:      e.difference < 0 ? 'shortage' : e.difference > 0 ? 'excess' : 'matched'
+          });
+        }
+      }
+    }
+  } catch(ex) {
+    console.error('Today DB load error:', ex.message);
+  }
+
+  // ── Also merge from localStorage (offline fallback) ──
+  const localSessions = JSON.parse(localStorage.getItem('pharmstock_history') || '[]');
+  const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+  for (const s of localSessions) {
+    const sDate = parseDBTime(s.submittedAt);
+    if (sDate >= todayStart) {
+      const timeLabel = sDate.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'});
+      for (const e of (s.entries || [])) {
+        const exists = todayEntries.some(t =>
+          t.medicine === e.medicine && t.staff === (s.staff || s.staffName)
+        );
+        if (!exists) {
+          todayEntries.push({
+            medicine:    e.medicine,
+            rackName:    e.rackName || '—',
+            systemStock: e.systemStock,
+            rackStock:   e.rackStock,
+            difference:  e.difference,
+            staff:       s.staff || s.staffName || 'Unknown',
+            time:        timeLabel,
+            status:      e.difference < 0 ? 'shortage' : e.difference > 0 ? 'excess' : 'matched'
+          });
+        }
+      }
+    }
+  }
+
+  hideLoading();
+
+  // Update nav badge
+  const badge = document.getElementById('todayNavBadge');
+  if (badge) { badge.textContent = todayEntries.length; badge.classList.toggle('visible', todayEntries.length > 0); }
+
+  renderTodayTable();
+}
+
+function filterToday(type, btn) {
+  todayFilter = type;
+  document.querySelectorAll('.today-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderTodayTable();
+}
+
+function renderTodayTable() {
+  const search  = (document.getElementById('todaySearch')?.value || '').toLowerCase();
+  const tbody   = document.getElementById('todayTableBody');
+
+  // Stats
+  const total    = todayEntries.length;
+  const shortage = todayEntries.filter(e => e.status === 'shortage').length;
+  const excess   = todayEntries.filter(e => e.status === 'excess').length;
+  const matched  = todayEntries.filter(e => e.status === 'matched').length;
+
+  document.getElementById('todayTotal').textContent    = total;
+  document.getElementById('todayShortage').textContent = shortage;
+  document.getElementById('todayExcess').textContent   = excess;
+  document.getElementById('todayMatched').textContent  = matched;
+
+  // Filter
+  let filtered = todayEntries;
+  if (todayFilter !== 'all') filtered = filtered.filter(e => e.status === todayFilter);
+  if (search) filtered = filtered.filter(e => e.medicine.toLowerCase().includes(search) || e.staff.toLowerCase().includes(search));
+
+  document.getElementById('todayTableTitle').textContent =
+    `Items Audited Today — ${filtered.length} item${filtered.length !== 1 ? 's' : ''}`;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9"><div class="today-empty">
+      <div class="te-icon">${total === 0 ? '📋' : '🔍'}</div>
+      <p>${total === 0 ? 'No medicines have been audited today yet.' : 'No items match your filter.'}</p>
+    </div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map((e, i) => {
+    const diffLabel = e.difference === 0 ? '✓ 0' : (e.difference > 0 ? '+' + e.difference : e.difference);
+    const chipClass = e.status;
+    return `<tr>
+      <td style="color:var(--muted);font-size:10px">${String(i+1).padStart(3,'0')}</td>
+      <td class="today-med-name">${e.medicine}</td>
+      <td>${e.rackName}</td>
+      <td style="text-align:center">${e.systemStock ?? '—'}</td>
+      <td style="text-align:center">${e.rackStock ?? '—'}</td>
+      <td style="text-align:center"><span class="diff-chip ${chipClass}">${diffLabel}</span></td>
+      <td><span class="diff-chip ${chipClass}">${e.status.charAt(0).toUpperCase()+e.status.slice(1)}</span></td>
+      <td><span class="today-staff-chip">${e.staff}</span></td>
+      <td style="color:var(--muted)">${e.time}</td>
+    </tr>`;
+  }).join('');
+}
+
+
+// ════════════════════════════════════
+// STORE ORDERS — DB TABLE: store_orders
+// ════════════════════════════════════
+
+// Product data from uploaded file
+const ORDER_PRODUCTS = BASE_DB_ORDERS;
+
+let orderCart = {};
+let allOrders = [];
+let currentOrderTab = 'place';
+let currentOrderFilter = 'all';
+
+function initOrdersPage() {
+  const now = new Date();
+  const el = document.getElementById('ordersDate');
+  if (el) el.textContent = now.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric', timeZone:'Asia/Kolkata'});
+
+  // Show manage tab for admin/supervisor
+  const manageTab = document.getElementById('otab-manage');
+  if (manageTab) manageTab.style.display = (currentRole === 'admin' || currentRole === 'supervisor') ? 'inline-flex' : 'none';
+
+  filterOrderProducts();
+  renderCart();
+
+  if (currentRole === 'admin' || currentRole === 'supervisor') {
+    loadOrders();
+  }
+}
+
+function switchOrderTab(tab, btn) {
+  currentOrderTab = tab;
+  document.querySelectorAll('#orderTabsBar .today-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('orderPlaceTab').style.display  = tab === 'place'  ? 'block' : 'none';
+  document.getElementById('orderManageTab').style.display = tab === 'manage' ? 'block' : 'none';
+  if (tab === 'manage') loadOrders();
+}
+
+function filterOrderProducts() {
+  const q    = (document.getElementById('orderSearch')?.value || '').toLowerCase();
+  const list = document.getElementById('orderProductList');
+  const filtered = ORDER_PRODUCTS.filter(p => !q || p['Medicine Name'].toLowerCase().includes(q));
+
+  document.getElementById('orderResCnt').textContent = filtered.length + ' items';
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="padding:30px;text-align:center;color:var(--muted);font-family:\'DM Mono\',monospace;font-size:12px">No products found</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(p => {
+    const name = p['Medicine Name'];
+    const sup  = p['Best Supplier'] || '—';
+    const rate = p['Rate'] ? '₹' + Number(p['Rate']).toFixed(2) : '—';
+    const inCart = !!orderCart[name];
+    const qty  = orderCart[name] || 0;
+    const safeName = name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    return `<div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.12s;background:${inCart ? 'rgba(232,115,26,0.05)' : 'transparent'}"
+      onclick="toggleOrderItem('${safeName}')">
+      <div style="width:18px;height:18px;border-radius:5px;border:2px solid ${inCart ? 'var(--accent)' : 'var(--border)'};background:${inCart ? 'var(--accent)' : 'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:10px">${inCart ? '✓' : ''}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${name}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px">${sup} · ${rate}</div>
+      </div>
+      ${inCart ? `<div style="display:flex;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:7px;overflow:hidden;flex-shrink:0" onclick="event.stopPropagation()">
+        <button onclick="changeOrderQty('${safeName}',-1)" style="width:26px;height:26px;border:none;background:none;cursor:pointer;font-weight:700;color:var(--muted)">−</button>
+        <span style="width:28px;text-align:center;font-family:'DM Mono',monospace;font-size:13px;font-weight:700">${qty}</span>
+        <button onclick="changeOrderQty('${safeName}',1)" style="width:26px;height:26px;border:none;background:none;cursor:pointer;font-weight:700;color:var(--muted)">+</button>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function toggleOrderItem(name) {
+  if (orderCart[name]) { delete orderCart[name]; }
+  else { orderCart[name] = 1; }
+  filterOrderProducts();
+  renderCart();
+}
+
+function changeOrderQty(name, delta) {
+  orderCart[name] = Math.max(1, (orderCart[name] || 1) + delta);
+  filterOrderProducts();
+  renderCart();
+}
+
+function renderCart() {
+  const items = Object.entries(orderCart);
+  const cartEl = document.getElementById('cartItems');
+  const btn    = document.getElementById('submitOrderBtn');
+  document.getElementById('cartLabel').textContent = items.length + ' item' + (items.length !== 1 ? 's' : '');
+
+  if (items.length === 0) {
+    cartEl.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 20px;color:var(--muted);font-family:\'DM Mono\',monospace;font-size:12px;text-align:center"><div style="font-size:32px;margin-bottom:8px;opacity:0.4">🛒</div>Select products to add</div>';
+    document.getElementById('cartSummary').textContent = '';
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; }
+    return;
+  }
+
+  cartEl.innerHTML = items.map(([name, qty]) => {
+    const prod = ORDER_PRODUCTS.find(p => p['Medicine Name'] === name);
+    const rate = prod?.Rate ? '₹' + Number(prod.Rate).toFixed(2) : '—';
+    const safeName = name.replace(/'/g, "\\'");
+    return `<div style="display:flex;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border);gap:8px;animation:rowIn 0.2s ease">
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${name}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);margin-top:2px">${rate}</div>
+      </div>
+      <div style="background:var(--bg);border-radius:5px;padding:2px 8px;font-family:'DM Mono',monospace;font-size:12px;font-weight:700">${qty}</div>
+      <button onclick="removeCartItem('${safeName}')" style="width:22px;height:22px;border:none;background:none;cursor:pointer;color:var(--muted);font-size:14px;border-radius:5px;transition:all 0.12s" onmouseover="this.style.background='#fee2e2';this.style.color='#dc2626'" onmouseout="this.style.background='none';this.style.color='var(--muted)'">✕</button>
+    </div>`;
+  }).join('');
+
+  document.getElementById('cartSummary').textContent = items.length + ' product' + (items.length !== 1 ? 's' : '');
+  if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+}
+
+function removeCartItem(name) { delete orderCart[name]; filterOrderProducts(); renderCart(); }
+function clearCart() { orderCart = {}; filterOrderProducts(); renderCart(); }
+
+function addManualOrderItem() {
+  const inp = document.getElementById('orderManualInp');
+  const name = inp.value.trim();
+  if (!name) return;
+  orderCart[name] = 1;
+  inp.value = '';
+  filterOrderProducts();
+  renderCart();
+  showToast('Added to cart: ' + name, 'success');
+}
+
+async function submitStoreOrder() {
+  const items = Object.entries(orderCart);
+  if (items.length === 0) return;
+
+  const btn = document.getElementById('submitOrderBtn');
+  btn.textContent = 'Submitting…'; btn.disabled = true;
+
+  const orderData = {
+    staff_name: currentUser,
+    staff_role: currentRole,
+    status: 'pending',
+    items: JSON.stringify(items.map(([name, qty]) => {
+      const prod = ORDER_PRODUCTS.find(p => p['Medicine Name'] === name);
+      return { name, qty, supplier: prod?.['Best Supplier'] || 'TBD', rate: prod?.Rate || null };
+    })),
+    submitted_at: new Date().toISOString()
+  };
+
+  const { error } = await sb.from('store_orders').insert(orderData);
+
+  if (error) {
+    showToast('Order save failed: ' + error.message, 'error');
+    btn.textContent = 'Submit Order →'; btn.disabled = false;
+    return;
+  }
+
+  showToast('Order submitted! ✓', 'success');
+  orderCart = {};
+  filterOrderProducts();
+  renderCart();
+  btn.textContent = 'Submit Order →';
+
+  // Update badge
+  updateOrdersBadge();
+}
+
+async function loadOrders() {
+  const { data, error } = await sb
+    .from('store_orders')
+    .select('*')
+    .order('submitted_at', { ascending: false });
+
+  if (error) { console.error('Orders load error:', error.message); return; }
+  allOrders = data || [];
+  updateOrdersBadge();
+  renderOrders();
+}
+
+function updateOrdersBadge() {
+  const pending = allOrders.filter(o => o.status === 'pending').length;
+  const badge = document.getElementById('ordersNavBadge');
+  if (badge) { badge.textContent = pending || ''; badge.classList.toggle('visible', pending > 0); }
+}
+
+function filterOrders(filter, btn) {
+  currentOrderFilter = filter;
+  document.querySelectorAll('#manageOrderFilters .today-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderOrders();
+}
+
+function renderOrders() {
+  const el = document.getElementById('ordersList');
+  let filtered = allOrders;
+  if (currentOrderFilter !== 'all') filtered = allOrders.filter(o => o.status === currentOrderFilter);
+
+  if (filtered.length === 0) {
+    el.innerHTML = '<div style="padding:60px;text-align:center;font-family:\'DM Mono\',monospace;font-size:13px;color:var(--muted)"><div style="font-size:36px;margin-bottom:12px">📋</div>No orders found</div>';
+    return;
+  }
+
+  el.innerHTML = filtered.map((order, i) => {
+    const items = JSON.parse(order.items || '[]');
+    const dt = parseDBTime(order.submitted_at);
+    const dateLabel = dt ? dt.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric', timeZone:'Asia/Kolkata'}) : '—';
+    const timeLabel = dt ? dt.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'}) : '';
+    const isPending = order.status === 'pending';
+
+    // Group by supplier
+    const bySupplier = {};
+    items.forEach(item => {
+      const sup = item.supplier || 'TBD';
+      if (!bySupplier[sup]) bySupplier[sup] = [];
+      bySupplier[sup].push(item);
+    });
+
+    const suppliersHTML = Object.entries(bySupplier).map(([sup, supItems]) => `
+      <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--border)">
+          <span style="font-weight:700;font-size:13px">${sup}</span>
+          ${sup !== 'TBD' && isPending ? `<button onclick="openWhatsAppOrder(${order.id}, '${sup.replace(/'/g,"\\'")}', ${JSON.stringify(supItems).replace(/'/g,"\\'")})"
+            style="background:#25D366;border:none;border-radius:6px;color:#fff;cursor:pointer;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;padding:4px 12px">📱 WhatsApp</button>` : ''}
+        </div>
+        <div>${supItems.map(item => `
+          <div style="display:flex;align-items:baseline;padding:7px 14px;border-bottom:1px dashed var(--border);font-size:13px;gap:5px">
+            <span style="flex:1;font-weight:600">${item.name}</span>
+            <span style="color:var(--muted);font-size:11px">×</span>
+            <span style="color:var(--muted)">${item.qty}</span>
+            ${item.rate ? `<span style="color:var(--accent);font-weight:700;margin-left:6px">₹${Number(item.rate).toFixed(2)}</span>` : ''}
+          </div>`).join('')}
+        </div>
+      </div>`).join('');
+
+    return `<div style="background:var(--surface);border:1.5px solid var(--border);border-left:4px solid ${isPending ? 'var(--warn)' : 'var(--ok)'};border-radius:14px;margin-bottom:14px;overflow:hidden;opacity:${isPending ? '1' : '0.75'}">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px">
+        <div>
+          <span style="font-weight:800;font-size:14px">Order #${order.id}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-left:10px">${dateLabel} ${timeLabel}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);margin-left:8px">by ${order.staff_name}</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="padding:2px 10px;border-radius:20px;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;background:${isPending ? 'rgba(255,149,0,0.1)' : 'rgba(63,185,80,0.1)'};color:${isPending ? 'var(--warn)' : 'var(--ok)'};border:1px solid ${isPending ? 'rgba(255,149,0,0.3)' : 'rgba(63,185,80,0.3)'}">${isPending ? '🟠 Pending' : '✅ Sent'}</span>
+          ${isPending ? `<button onclick="markOrderSent(${order.id})" style="background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.3);border-radius:6px;color:var(--ok);cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;padding:4px 12px">✓ Mark Sent</button>` : ''}
+          <button onclick="deleteOrder(${order.id})" style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;padding:4px 10px">🗑</button>
+        </div>
+      </div>
+      <div style="padding:12px 16px">${suppliersHTML}</div>
+    </div>`;
+  }).join('');
+}
+
+async function markOrderSent(id) {
+  await sb.from('store_orders').update({ status: 'sent' }).eq('id', id);
+  await loadOrders();
+  showToast('Order marked as sent ✅', 'success');
+}
+
+async function deleteOrder(id) {
+  if (!confirm('Delete this order?')) return;
+  await sb.from('store_orders').delete().eq('id', id);
+  await loadOrders();
+  showToast('Order deleted', 'error');
+}
+
+function openWhatsAppOrder(orderId, supplier, items) {
+  const date = new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric', timeZone:'Asia/Kolkata'});
+  const lines = items.map((i, idx) => `${idx+1}. ${i.name} - Qty: ${i.qty}`).join('\n');
+  const msg = `Order from PharmStock\nDate: ${date}\nSupplier: ${supplier}\n\n${lines}`;
+  const phone = prompt(`Enter ${supplier}'s WhatsApp number (with country code, e.g. 919876543210):`);
+  if (phone) window.open(`https://wa.me/${phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+
+// ════════════════════════════════════
+// USER MANAGEMENT
+// ════════════════════════════════════
+
+async function loadUsers() {
+  const tbody = document.getElementById('usersTableBody');
+  if (!tbody) return;
+
+  const { data, error } = await sb.from('users').select('*').order('created_at', { ascending: true });
+  if (error) { tbody.innerHTML = `<tr><td colspan="5" style="padding:20px;text-align:center;color:var(--critical)">Error: ${error.message}</td></tr>`; return; }
+
+  const users = data || [];
+  document.getElementById('userCount').textContent = users.length + ' users';
+
+  const roleLabels = { admin:'🔐 Admin', supervisor:'👁️ Supervisor', stock_audit:'👨‍⚕️ Stock Audit' };
+  const roleColors = { admin:'var(--accent)', supervisor:'var(--warn)', stock_audit:'var(--ok)' };
+
+  tbody.innerHTML = users.map(u => `
+    <tr style="border-bottom:1px solid rgba(208,217,228,0.4)">
+      <td style="font-family:'Syne',sans-serif;font-size:13px;font-weight:600;padding:12px 20px">${u.name}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;padding:12px 20px;color:var(--muted)">${u.username}</td>
+      <td style="padding:12px 20px">
+        <span style="background:${roleColors[u.role] || 'var(--muted)'}22;border:1px solid ${roleColors[u.role] || 'var(--muted)'}44;border-radius:20px;padding:3px 10px;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:${roleColors[u.role] || 'var(--muted)'}">
+          ${roleLabels[u.role] || u.role}
+        </span>
+      </td>
+      <td style="padding:12px 20px">
+        <span style="background:${u.is_active ? 'rgba(63,185,80,0.1)' : 'rgba(248,81,73,0.1)'};border:1px solid ${u.is_active ? 'rgba(63,185,80,0.3)' : 'rgba(248,81,73,0.3)'};border-radius:20px;padding:3px 10px;font-family:'DM Mono',monospace;font-size:11px;color:${u.is_active ? 'var(--ok)' : 'var(--critical)'}">
+          ${u.is_active ? '● Active' : '● Inactive'}
+        </span>
+      </td>
+      <td style="padding:12px 20px;text-align:right">
+        <button onclick="resetUserPassword(${u.id}, '${u.name.replace(/'/g,"\\'")}', '${u.username}')"
+          style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;padding:5px 12px;margin-right:6px;transition:all 0.15s"
+          onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+          onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">🔑 Reset PW</button>
+        ${u.username !== 'admin' ? `
+        <button onclick="toggleUserActive(${u.id}, ${u.is_active})"
+          style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;padding:5px 12px;transition:all 0.15s">
+          ${u.is_active ? '🔒 Deactivate' : '✅ Activate'}
+        </button>` : '<span style="font-family:\'DM Mono\',monospace;font-size:10px;color:var(--muted)">Protected</span>'}
+      </td>
+    </tr>`).join('');
+}
+
+async function addUser() {
+  const name     = document.getElementById('newUserName').value.trim();
+  const username = document.getElementById('newUserUsername').value.trim().toLowerCase();
+  const password = document.getElementById('newUserPassword').value;
+  const role     = document.getElementById('newUserRole').value;
+  const errEl    = document.getElementById('addUserError');
+
+  if (!name || !username || !password) { errEl.textContent = 'All fields are required.'; return; }
+  if (password.length < 4)             { errEl.textContent = 'Password must be at least 4 characters.'; return; }
+
+  const hashed = await hashPassword(password);
+  const { error } = await sb.from('users').insert({ name, username, password_hash: hashed, role });
+
+  if (error) {
+    errEl.textContent = error.code === '23505' ? 'Username already exists.' : error.message;
+    return;
+  }
+
+  errEl.textContent = '';
+  document.getElementById('newUserName').value = '';
+  document.getElementById('newUserUsername').value = '';
+  document.getElementById('newUserPassword').value = '';
+  showToast('User added: ' + name, 'success');
+  loadUsers();
+}
+
+async function resetUserPassword(id, name, username) {
+  const newPw = prompt(`Reset password for ${name} (${username}):\nEnter new password (min 4 chars):`);
+  if (!newPw || newPw.length < 4) { if (newPw !== null) alert('Password too short.'); return; }
+  const hashed = await hashPassword(newPw);
+  const { error } = await sb.from('users').update({ password_hash: hashed }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  showToast('Password reset for ' + name, 'success');
+}
+
+async function toggleUserActive(id, currentState) {
+  const { error } = await sb.from('users').update({ is_active: !currentState }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  showToast(currentState ? 'User deactivated' : 'User activated', currentState ? 'error' : 'success');
+  loadUsers();
+}
+
+
+// ════════════════════════════════════
+// PRICE REPORT
+// ════════════════════════════════════
+let priceReportData   = [];  // all rows from uploaded Excel
+let priceFilterMode   = 'all';
+let priceChangeLog    = JSON.parse(localStorage.getItem('pharmstock_price_log') || '[]');
+
+function initPriceReport() {
+  renderPriceLog();
+  updatePriceNavBadge();
+}
+
+function handlePriceFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const wb   = XLSX.read(e.target.result, { type: 'binary' });
+      const ws   = wb.Sheets[wb.SheetNames[0]];
+      // Read as array of arrays (no header) — your format: [Supplier, Medicine, Rate, Qty]
+      const rawRows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+
+      if (rawRows.length === 0) { showToast('Excel is empty!', 'error'); return; }
+
+      // Detect if first row is a header or data
+      // If column 2 (index 1) of row 1 looks like a number → no header
+      const firstRow  = rawRows[0];
+      const hasHeader = isNaN(parseFloat(firstRow[2]));
+      const dataRows  = hasHeader ? rawRows.slice(1) : rawRows;
+
+      if (dataRows.length === 0) { showToast('No data rows found!', 'error'); return; }
+
+      // Your format: Col0=Supplier, Col1=Medicine, Col2=Rate, Col3=Qty
+      // Build comparison data
+      priceReportData = dataRows
+        .filter(r => r[1] && r[2] !== '')
+        .map(r => {
+          const supplier    = String(r[0] || '').trim() || 'Unknown';
+          const medName     = String(r[1] || '').trim();
+          const invoiceRate = parseFloat(r[2]) || 0;
+          const qty         = parseInt(r[3]) || 0;
+
+          // Find in BASE_DB_ORDERS
+          const dbEntry = BASE_DB_ORDERS.find(p =>
+            p['Medicine Name'].toLowerCase() === medName.toLowerCase()
+          );
+
+          const dbRate = dbEntry ? (dbEntry.Rate || 0) : null;
+          const dbSup  = dbEntry ? (dbEntry['Best Supplier'] || '—') : '—';
+
+          let status = 'notfound';
+          let diff   = null;
+          if (dbRate !== null) {
+            diff = invoiceRate - dbRate;
+            if (Math.abs(diff) < 0.01)   status = 'same';
+            else if (invoiceRate < dbRate) status = 'better';
+            else                           status = 'higher';
+          }
+
+          return { medName, invoiceRate, supplier, qty, dbRate, dbSup, diff, status };
+        });
+
+      // Update stats
+      const total   = priceReportData.length;
+      const better  = priceReportData.filter(r => r.status === 'better').length;
+      const higher  = priceReportData.filter(r => r.status === 'higher').length;
+      const notfound = priceReportData.filter(r => r.status === 'notfound').length;
+
+      document.getElementById('priceStatTotal').textContent  = total;
+      document.getElementById('priceStatBetter').textContent = better;
+      document.getElementById('priceStatHigher').textContent = higher;
+      document.getElementById('priceStatNew').textContent    = notfound;
+
+      // Show sections
+      document.getElementById('priceSummaryBar').style.display   = 'grid';
+      document.getElementById('priceFilterBar').style.display    = 'flex';
+      document.getElementById('priceResultsWrap').style.display  = 'block';
+      document.getElementById('updateAllBtn').style.display      = better > 0 ? 'inline-flex' : 'none';
+
+      // Update nav badge
+      updatePriceNavBadge(better);
+
+      // Show toast notification
+      if (better > 0) {
+        showToast(`🎉 ${better} better prices found! Check Price Report.`, 'success');
+      } else {
+        showToast('No better prices found in this invoice.', 'success');
+      }
+
+      priceFilterMode = 'all';
+      document.querySelectorAll('#priceFilterBar .today-tab').forEach((t,i) => t.classList.toggle('active', i === 0));
+      renderPriceTable();
+
+    } catch(ex) {
+      showToast('Error reading file: ' + ex.message, 'error');
+    }
+  };
+  reader.readAsBinaryString(file);
+}
+
+function filterPriceReport(mode, btn) {
+  priceFilterMode = mode;
+  document.querySelectorAll('#priceFilterBar .today-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderPriceTable();
+}
+
+function renderPriceTable() {
+  const tbody  = document.getElementById('priceTableBody');
+  const search = (document.getElementById('priceSearch')?.value || '').toLowerCase();
+
+  let filtered = priceReportData;
+  if (priceFilterMode !== 'all') filtered = filtered.filter(r => r.status === priceFilterMode);
+  if (search) filtered = filtered.filter(r => r.medName.toLowerCase().includes(search));
+
+  document.getElementById('priceResultTitle').textContent =
+    `Price Comparison — ${filtered.length} item${filtered.length !== 1 ? 's' : ''}`;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="padding:40px;text-align:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">No items match this filter.</td></tr>`;
+    return;
+  }
+
+  const statusConfig = {
+    better:   { label:'✅ Better Price', color:'#2e8b57', bg:'rgba(46,139,87,0.08)', border:'rgba(46,139,87,0.25)' },
+    higher:   { label:'🔴 Higher Price', color:'var(--critical)', bg:'rgba(248,81,73,0.08)', border:'rgba(248,81,73,0.25)' },
+    same:     { label:'⚪ Same Price',   color:'var(--muted)',    bg:'rgba(107,122,141,0.08)', border:'rgba(107,122,141,0.2)' },
+    notfound: { label:'❓ Not in DB',    color:'var(--warn)',     bg:'rgba(255,149,0,0.08)',   border:'rgba(255,149,0,0.25)' },
+  };
+
+  tbody.innerHTML = filtered.map((r, i) => {
+    const cfg      = statusConfig[r.status] || statusConfig.same;
+    const dbPrice  = r.dbRate !== null ? '₹' + r.dbRate.toFixed(2) : '—';
+    const invPrice = '₹' + r.invoiceRate.toFixed(2);
+    const diffStr  = r.diff !== null ? (r.diff > 0 ? '+₹' : '₹') + r.diff.toFixed(2) : '—';
+    const diffColor = r.diff < 0 ? '#2e8b57' : r.diff > 0 ? 'var(--critical)' : 'var(--muted)';
+    const safeName = r.medName.replace(/'/g, "\\'");
+
+    return `<tr style="border-bottom:1px solid rgba(208,217,228,0.4);transition:background 0.15s" onmouseover="this.style.background='rgba(232,115,26,0.02)'" onmouseout="this.style.background='transparent'">
+      <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:11px 16px">${String(i+1).padStart(3,'0')}</td>
+      <td style="font-family:'Syne',sans-serif;font-size:13px;font-weight:600;padding:11px 16px">${r.medName}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:11px;padding:11px 16px;color:var(--muted)">${r.supplier}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;padding:11px 16px;text-align:right;color:var(--muted)">${dbPrice}<br><span style="font-size:10px;color:var(--muted)">${r.dbSup}</span></td>
+      <td style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;padding:11px 16px;text-align:right;color:${cfg.color}">${invPrice}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;padding:11px 16px;text-align:right;color:${diffColor}">${diffStr}</td>
+      <td style="padding:11px 16px;text-align:center">
+        <span style="background:${cfg.bg};border:1px solid ${cfg.border};border-radius:20px;padding:3px 10px;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:${cfg.color}">${cfg.label}</span>
+      </td>
+      <td style="padding:11px 16px;text-align:right">
+        ${r.status === 'better' ? `<button onclick="updateSinglePrice('${safeName}', ${r.invoiceRate}, '${r.supplier.replace(/'/g,"\\'")}', ${r.dbRate})"
+          style="background:rgba(46,139,87,0.1);border:1px solid rgba(46,139,87,0.3);border-radius:6px;color:#2e8b57;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;padding:5px 12px;transition:all 0.15s">
+          ✅ Update Price
+        </button>` : '<span style="color:var(--muted);font-size:11px;font-family:\'DM Mono\',monospace">—</span>'}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function updateSinglePrice(medName, newRate, newSupplier, oldRate) {
+  // Update in BASE_DB_ORDERS (in-memory)
+  const idx = BASE_DB_ORDERS.findIndex(p => p['Medicine Name'].toLowerCase() === medName.toLowerCase());
+  if (idx !== -1) {
+    BASE_DB_ORDERS[idx]['Rate'] = newRate;
+    BASE_DB_ORDERS[idx]['Best Supplier'] = newSupplier;
+  }
+
+  // Log the change
+  const logEntry = {
+    id: Date.now(),
+    medicine:    medName,
+    oldPrice:    oldRate,
+    newPrice:    newRate,
+    oldSupplier: idx !== -1 ? BASE_DB_ORDERS[idx]['Best Supplier'] : '—',
+    newSupplier: newSupplier,
+    changedAt:   new Date().toISOString(),
+    changedBy:   currentUser
+  };
+  priceChangeLog.unshift(logEntry);
+  localStorage.setItem('pharmstock_price_log', JSON.stringify(priceChangeLog));
+
+  // Update the row status in priceReportData
+  const row = priceReportData.find(r => r.medName.toLowerCase() === medName.toLowerCase());
+  if (row) { row.status = 'same'; row.dbRate = newRate; row.dbSup = newSupplier; row.diff = 0; }
+
+  // Update stats
+  const better = priceReportData.filter(r => r.status === 'better').length;
+  document.getElementById('priceStatBetter').textContent = better;
+  updatePriceNavBadge(better);
+
+  showToast('Price updated: ' + medName + ' → ₹' + newRate.toFixed(2), 'success');
+  renderPriceTable();
+  renderPriceLog();
+}
+
+function updateAllBetterPrices() {
+  const betterItems = priceReportData.filter(r => r.status === 'better');
+  if (betterItems.length === 0) return;
+  if (!confirm(`Update all ${betterItems.length} better prices in the database?`)) return;
+  betterItems.forEach(r => updateSinglePrice(r.medName, r.invoiceRate, r.supplier, r.dbRate));
+  showToast(`Updated ${betterItems.length} prices! ✅`, 'success');
+}
+
+function renderPriceLog() {
+  const el = document.getElementById('priceLogList');
+  const countEl = document.getElementById('priceLogCount');
+  if (!el) return;
+
+  countEl.textContent = priceChangeLog.length + ' change' + (priceChangeLog.length !== 1 ? 's' : '');
+
+  if (priceChangeLog.length === 0) {
+    el.innerHTML = '<div style="padding:30px;text-align:center;font-family:\'DM Mono\',monospace;font-size:12px;color:var(--muted)">No price changes recorded yet.</div>';
+    return;
+  }
+
+  el.innerHTML = priceChangeLog.map(log => {
+    const dt = parseDBTime(log.changedAt);
+    const dateLabel = dt ? dt.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric', timeZone:'Asia/Kolkata'}) : '—';
+    const timeLabel = dt ? dt.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'}) : '';
+    const saving = log.oldPrice - log.newPrice;
+
+    return `<div style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid rgba(208,217,228,0.4);animation:rowIn 0.2s ease">
+      <div style="width:36px;height:36px;background:rgba(46,139,87,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">💰</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:600">${log.medicine}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:2px">
+          ₹${log.oldPrice?.toFixed(2)} → <span style="color:#2e8b57;font-weight:700">₹${log.newPrice?.toFixed(2)}</span>
+          · ${log.newSupplier}
+          ${saving > 0 ? `· <span style="color:#2e8b57">saving ₹${saving.toFixed(2)}/unit</span>` : ''}
+        </div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)">${dateLabel}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)">${timeLabel} · ${log.changedBy || 'Admin'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updatePriceNavBadge(count) {
+  const badge = document.getElementById('priceNavBadge');
+  if (!badge) return;
+  const n = count !== undefined ? count : priceChangeLog.length;
+  badge.textContent = n || '';
+  badge.classList.toggle('visible', n > 0);
+}
+
+function exportPriceReport() {
+  if (priceReportData.length === 0) { showToast('No data to export.', 'error'); return; }
+  const wb = XLSX.utils.book_new();
+  const rows = [
+    ['PharmStock — Price Report'],
+    ['Generated:', new Date().toLocaleString('en-IN', {timeZone:'Asia/Kolkata'})],
+    [],
+    ['Medicine Name', 'Invoice Supplier', 'DB Price', 'DB Supplier', 'Invoice Price', 'Difference', 'Status']
+  ];
+  priceReportData.forEach(r => {
+    rows.push([
+      r.medName, r.supplier,
+      r.dbRate !== null ? r.dbRate : 'Not in DB',
+      r.dbSup,
+      r.invoiceRate,
+      r.diff !== null ? r.diff.toFixed(2) : '—',
+      r.status.toUpperCase()
+    ]);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:32},{wch:24},{wch:12},{wch:24},{wch:12},{wch:12},{wch:14}];
+  XLSX.utils.book_append_sheet(wb, ws, 'Price Report');
+
+  // Change log sheet
+  if (priceChangeLog.length > 0) {
+    const logRows = [['Medicine','Old Price','New Price','Old Supplier','New Supplier','Changed By','Date']];
+    priceChangeLog.forEach(l => {
+      const dt = parseDBTime(l.changedAt);
+      logRows.push([l.medicine, l.oldPrice, l.newPrice, l.oldSupplier, l.newSupplier, l.changedBy,
+        dt ? dt.toLocaleString('en-IN', {timeZone:'Asia/Kolkata'}) : '']);
+    });
+    const ws2 = XLSX.utils.aoa_to_sheet(logRows);
+    XLSX.utils.book_append_sheet(wb, ws2, 'Price Changes');
+  }
+
+  XLSX.writeFile(wb, 'PriceReport.xlsx');
+  showToast('Price report exported!', 'success');
+}
+
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
@@ -3887,11 +5337,7 @@ function showToast(msg, type = 'success') {
 (async function initApp() {
   showLoading('Connecting to database…');
   try {
-    // Load medicines from DB
     await dbLoadMedicines();
-    // Cache admin pin
-    cachedAdminPin = await dbGetAdminPin();
-    localStorage.setItem('pharmstock_admin_pin', cachedAdminPin);
   } catch(e) {
     console.error('Init error:', e);
   }
